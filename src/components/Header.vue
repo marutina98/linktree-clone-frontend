@@ -1,32 +1,24 @@
 <script setup lang="ts">
-import INavItem from '@/interfaces/nav-item.interface';
+  import INavItem from '@/interfaces/nav-item.interface';
 
-
-  const brandLogo = {
-    src: './images/lemon-svgrepo-com.svg',
-    alt: 'Lemon',
-  }
+  const brandName: string = 'Brand';
 
   const navItems: INavItem[] = [
-    { href: '/', text: 'Home' }
+    { href: '/', text: 'Home' },
+    { href: '/about', text: 'About' }
   ];
 
 </script>
 
 <template>
 
-  <nav class="nav">
+  <nav>
     <div class="nav-brand">
-      <img class="nav-brand-img" v-bind="brandLogo">
+      <h1>{{ brandName }}</h1>
     </div>
 
     <div class="nav-items">
       <RouterLink v-for="item of navItems" :to="item.href">{{ item.text }}</RouterLink>
-    </div>
-
-    <div class="nav-authentication">
-      <button class="nav-authentication-btn btn-login">Login</button>
-      <button class="nav-authentication-btn btn-signup">Register</button>
     </div>
   </nav>
 
@@ -36,32 +28,24 @@ import INavItem from '@/interfaces/nav-item.interface';
 
   @reference 'tailwindcss';
 
-  .nav {
-    @apply bg-lime-100 flex flex-row gap-2 m-6 p-4 rounded-full;
+  nav {
+    @apply bg-amber-100 flex items-center text-amber-600 px-8 py-6;
   }
 
   .nav-brand {
-    @apply bg-white ml-2 p-2 rounded-full;
-  }
-  
-  .nav-brand-img {
-    @apply max-w-20;
+    @apply flex font-extrabold grow shrink tracking-[.5em] uppercase;
   }
 
   .nav-items {
-    @apply grow shrink;
+    @apply flex gap-8;
   }
 
-  .nav-item {
-
+  .nav-items a {
+    @apply bg-white border-b-4 border-b-amber-300 px-4 py-2 uppercase min-w-16;
   }
 
-  .nav-authentication {
-    @apply flex flex-row gap-4 items-center;
-  }
-
-  .nav-authentication-btn {
-    cursor: pointer;
+  .nav-items .router-link-active {
+    @apply font-extrabold;
   }
 
 </style>
