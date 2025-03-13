@@ -8,6 +8,10 @@
     { href: '/about', text: 'About' }
   ];
 
+  // @todo: check if the user is logged or a guest
+
+  const isLogged: boolean = false;
+
 </script>
 
 <template>
@@ -19,6 +23,8 @@
 
     <div class="nav-items">
       <RouterLink v-for="item of navItems" :to="item.href">{{ item.text }}</RouterLink>
+      <RouterLink v-if="!isLogged" to="/login">Login</RouterLink>
+      <RouterLink v-else to="/dashboard">Dashboard</RouterLink>
     </div>
   </nav>
 
@@ -42,6 +48,10 @@
 
   .nav-items a {
     @apply bg-white border-b-4 border-b-amber-300 px-4 py-2 uppercase min-w-16;
+  }
+
+  .nav-items a:hover {
+    @apply duration-200 ease-in-out scale-125 transition;
   }
 
   .nav-items .router-link-active {
