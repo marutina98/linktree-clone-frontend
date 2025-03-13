@@ -30,19 +30,15 @@
   @reference 'tailwindcss';
 
   .navbar {
-    @apply items-center flex gap-8 p-8;
+    @apply bg-white items-center flex gap-20 m-8 p-4 rounded-full shadow-md shadow-slate-200;
   }
 
   .navbar-brand {
-    @apply bg-pink-200 max-w-20 p-4 rounded-full;
-  }
-
-  .navbar-brand:hover {
-    @apply animate-spin;
+    @apply max-w-20 ml-2 p-4;
   }
 
   .navbar-items {
-    @apply flex gap-8;
+    @apply flex gap-20;
   }
 
   .navbar-items a {
