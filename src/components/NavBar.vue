@@ -1,30 +1,52 @@
 <script setup lang="ts">
 
-  interface INavItem {
-    href: string,
-    text: string,
-  }
+  import INavBarItem from '@/interfaces/navbar-item.interface';
   
-  const svg = './images/branch-vase-svgrepo-com.svg';
+  const brandIcon = {
+    src: './images/branch-vase-svgrepo-com.svg',
+    alt: 'Branch Vase'
+  };
 
-  const navItems: INavItem[] = [
-    { href: '/', text: 'Home' }
+  const navBarItems: INavBarItem[] = [
+    { href: '/', text: 'Home' },
+    { href: '/about', text: 'About' }
   ];
 
 </script>
 
 <template>
-  <nav class="bg-pink-200 items-center flex gap-4 p-4 m-4 rounded-xl">
-    <div class="max-w-16">
-      <img :src="svg" alt="Branch Vase">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <img v-bind="brandIcon">
     </div>
-    <template v-if="navItems.length > 0">
-      <div>
-        <RouterLink :to="item.href" v-for="item of navItems">{{ item.text }}</RouterLink>
-      </div>
-    </template>
+    <div class="navbar-items">
+      <a v-for="navBarItem of navBarItems" :href="navBarItem.href">{{ navBarItem.text }}</a>
+    </div>
   </nav>
 </template>
 
 <style scoped>
+
+  @reference 'tailwindcss';
+
+  .navbar {
+    @apply items-center flex gap-8 p-8;
+  }
+
+  .navbar-brand {
+    @apply bg-pink-200 max-w-20 p-4 rounded-full;
+  }
+
+  .navbar-brand:hover {
+    @apply animate-spin;
+  }
+
+  .navbar-items {
+    @apply flex gap-8;
+  }
+
+  .navbar-items a {
+    @apply uppercase;
+  }
+
 </style>

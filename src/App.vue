@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import NavBar from './components/NavBar.vue';
+  import Footer from './components/Footer.vue';
 </script>
 
 <template>
@@ -8,16 +9,16 @@
   </header>
 
   <main>
-    
-    <p>Main</p>
-
     <RouterView />
   </main>
 
-  <footer>
-    <!-- TODO: Footer -->
-  </footer>
+  <Footer />
 </template>
 
 <style scoped>
+  @reference 'tailwindcss';
+
+  main {
+    @apply grow shrink;
+  }
 </style>
