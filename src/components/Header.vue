@@ -1,10 +1,14 @@
 <script setup lang="ts">
 
-  import { onBeforeMount, ref } from 'vue';
+  // Stores & Services
+
+  import { useAuthenticatedStore } from '@/stores/use-authenticated-store.store';
+  import { authenticationService } from '@/services/authentication.service';
 
   // Interfaces
 
   import INavItem from '@/interfaces/nav-item.interface';
+  import { ref, onBeforeMount } from 'vue';
 
   // Services
 
@@ -14,7 +18,22 @@
     { href: '/', text: 'Home' }
   ];
 
-  const isLogged: boolean = false;
+  // Use the useAuthenticatedStore to check if the user
+  // is authenticated or not by subscribing to it.
+
+  const authenticatedStore = useAuthenticatedStore();
+  
+  const isLogged = ref(authenticatedStore.status);
+
+  authenticatedStore.$subscribe((_mutation, state) => {
+    isLogged.value = state.status;
+  });
+
+  // Before Mount, check the authenticated status
+
+  onBeforeMount(() => {
+    authenticatedStore.checkAuthenticatedStatus();
+  });
 
 </script>
 
@@ -28,6 +47,7 @@
       </div>
 
       <div class="nav-items">
+
         <RouterLink v-for="item of navItems" :to="item.href">{{ item.text }}</RouterLink>
 
         <template v-if="!isLogged">
@@ -36,6 +56,7 @@
         </template>
 
         <RouterLink v-else to="/dashboard">Dashboard</RouterLink>
+
       </div>
     </nav>
 
