@@ -16,17 +16,21 @@
 
 <template>
 
-  <nav>
-    <div class="nav-brand">
-      <h1>{{ brandName }}</h1>
-    </div>
+  <header>
+    
+    <nav>
+      <div class="nav-brand">
+        <h1>{{ brandName }}</h1>
+      </div>
 
-    <div class="nav-items">
-      <RouterLink v-for="item of navItems" :to="item.href">{{ item.text }}</RouterLink>
-      <RouterLink v-if="!isLogged" to="/login">Login</RouterLink>
-      <RouterLink v-else to="/dashboard">Dashboard</RouterLink>
-    </div>
-  </nav>
+      <div class="nav-items">
+        <RouterLink v-for="item of navItems" :to="item.href">{{ item.text }}</RouterLink>
+        <RouterLink v-if="!isLogged" to="/login">Login</RouterLink>
+        <RouterLink v-else to="/dashboard">Dashboard</RouterLink>
+      </div>
+    </nav>
+
+  </header>
 
 </template>
 
@@ -35,7 +39,7 @@
   @reference 'tailwindcss';
 
   nav {
-    @apply bg-amber-100 flex items-center text-amber-600 px-8 py-6;
+    @apply bg-amber-100 flex gap-8 items-center text-amber-600 px-8 py-6;
   }
 
   .nav-brand {

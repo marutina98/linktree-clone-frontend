@@ -4,9 +4,23 @@
 </script>
 
 <template>
-  <Header />
-  <RouterView />
-  <Footer />
+
+  <Header class="header" />
+
+  <main>
+    <RouterView />
+  </main>
+
+  <Footer/>
+  
 </template>
 
-<style scoped></style>
+<style scoped>
+
+  @reference 'tailwindcss';
+
+  main {
+    @apply grow shrink;
+  }
+
+</style>
