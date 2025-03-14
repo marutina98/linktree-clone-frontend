@@ -31,4 +31,4 @@ createApp(App)
 import { authenticationService } from './services/authentication.service';
 import { useAuthenticatedStore } from './stores/use-authenticated-store.store';
 
-authenticationService.setAuthenticatedStore(useAuthenticatedStore());
+authenticationService.authenticatedStore = useAuthenticatedStore();
