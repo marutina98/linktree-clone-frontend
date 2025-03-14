@@ -12,23 +12,22 @@ import App from './App.vue';
 // Plugins
 // CookieConsentBanner, Router and Pinia
 
-import CookieConsentBanner from './plugins/CookieConsentBanner';
+import CookieConsentBanner from './plugins/cookie-consent-banner.plugin';
 import cookieConsentBannerConfig from './settings/cookie-consent-banner-config';
 
 import router from './routes/router';
 
+// Provide useAuthenticationStore to the entire App
+
+import { useAuthenticationStore } from './stores/use-authentication-store.store';
+
 const pinia = createPinia();
+
+// Add Router and Plugins
 
 createApp(App)
 .use(router)
 .use(CookieConsentBanner, cookieConsentBannerConfig)
 .use(pinia)
+.provide('authentication', useAuthenticationStore())
 .mount('#app');
-
-// Set Authenticated Store in authenticationService
-// The store cannot be used without creating Pinia First.
-
-import { authenticationService } from './services/authentication.service';
-import { useAuthenticatedStore } from './stores/use-authenticated-store.store';
-
-authenticationService.authenticatedStore = useAuthenticatedStore();

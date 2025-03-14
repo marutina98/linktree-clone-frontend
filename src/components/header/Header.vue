@@ -1,16 +1,11 @@
 <script setup lang="ts">
 
-  // Stores & Services
+  import type { IAuthenticatedStore } from '@/interfaces/authenticated-store.interface';
+  import type { INavItem } from '@/interfaces/nav-item.interface';
+  import { inject, onBeforeMount, ref } from 'vue';
+  import HeaderLogoutButton from './HeaderLogoutButton.vue';
 
-  import { useAuthenticatedStore } from '@/stores/use-authenticated-store.store';
-  import { authenticationService } from '@/services/authentication.service';
-
-  // Interfaces
-
-  import INavItem from '@/interfaces/nav-item.interface';
-  import { ref, onBeforeMount } from 'vue';
-
-  // Services
+  // Nav
 
   const brandName: string = 'Brand';
 
@@ -18,23 +13,18 @@
     { href: '/', text: 'Home' }
   ];
 
-  // Use the useAuthenticatedStore to check if the user
-  // is authenticated or not by subscribing to it.
+  // Get Authentication Status from
+  // authenticationStore
 
-  const authenticatedStore = useAuthenticatedStore();
+  // Check the status before mounting
+  // component
+
+  const authenticationStore = inject('authentication') as IAuthenticatedStore;
   
-  const isLogged = ref(authenticatedStore.status);
-
-  authenticatedStore.$subscribe((_mutation, state) => {
-    isLogged.value = state.status;
-  });
-
-  // Before Mount, check the authenticated status
-
   onBeforeMount(() => {
-    authenticatedStore.checkAuthenticatedStatus();
+    authenticationStore.checkIfAuthenticated();
   });
-
+  
 </script>
 
 <template>
@@ -50,12 +40,15 @@
 
         <RouterLink v-for="item of navItems" :to="item.href">{{ item.text }}</RouterLink>
 
-        <template v-if="!isLogged">
+        <template v-if="!authenticationStore.isLogged">
           <RouterLink to="/login">Login</RouterLink>
           <RouterLink to="/signup">Signup</RouterLink>
         </template>
 
-        <RouterLink v-else to="/dashboard">Dashboard</RouterLink>
+        <template v-else>
+          <RouterLink to="/dashboard">Dashboard</RouterLink>
+          <HeaderLogoutButton />
+        </template>
 
       </div>
     </nav>
