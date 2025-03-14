@@ -1,14 +1,18 @@
 <script setup lang="ts">
+
+  import { onBeforeMount, ref } from 'vue';
+
+  // Interfaces
+
   import INavItem from '@/interfaces/nav-item.interface';
+
+  // Services
 
   const brandName: string = 'Brand';
 
   const navItems: INavItem[] = [
-    { href: '/', text: 'Home' },
-    { href: '/about', text: 'About' }
+    { href: '/', text: 'Home' }
   ];
-
-  // @todo: check if the user is logged or a guest
 
   const isLogged: boolean = false;
 
@@ -17,7 +21,7 @@
 <template>
 
   <header>
-    
+
     <nav>
       <div class="nav-brand">
         <h1>{{ brandName }}</h1>
@@ -25,7 +29,12 @@
 
       <div class="nav-items">
         <RouterLink v-for="item of navItems" :to="item.href">{{ item.text }}</RouterLink>
-        <RouterLink v-if="!isLogged" to="/login">Login</RouterLink>
+
+        <template v-if="!isLogged">
+          <RouterLink to="/login">Login</RouterLink>
+          <RouterLink to="/signup">Signup</RouterLink>
+        </template>
+
         <RouterLink v-else to="/dashboard">Dashboard</RouterLink>
       </div>
     </nav>

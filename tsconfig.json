@@ -1,0 +1,10 @@
+{
+  "extends": [
+  "@tsconfig/node22/tsconfig.json",
+  "@vue/tsconfig/tsconfig.json"
+  ],
+  "compilerOptions": {
+    "types": ["node"],
+    "moduleResolution": "nodenext"
+  }
+}

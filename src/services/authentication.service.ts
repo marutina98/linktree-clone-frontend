@@ -1,6 +1,6 @@
+
 class AuthenticationService {
 
-  // @todo: signin, signup, logout, isAuthenticated
 
 }
 
