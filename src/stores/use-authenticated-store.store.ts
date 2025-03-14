@@ -25,7 +25,6 @@ export const useAuthenticatedStore = defineStore('authenticated', () => {
 
   const checkAuthenticatedStatus = () => {
     const token = cookie.get('token');
-    console.log(token);
     status.value = token ? true : false;
   }
 
