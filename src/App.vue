@@ -43,7 +43,7 @@
   @reference 'tailwindcss';
 
   main {
-    @apply grow shrink;
+    @apply bg-gray-50 grow shrink;
   }
 
   main.is-full {

@@ -38,15 +38,27 @@
   @reference 'tailwindcss';
 
   form {
-    @apply bg-white p-8 rounded-xl shadow-lg top-1/2 translate-y-1/2;
+    @apply bg-white flex flex-col gap-6 p-8 rounded-lg shadow-gray-100 shadow-md;
+  }
+
+  form fieldset {
+    @apply flex flex-col;
+  }
+
+  form label {
+    @apply font-bold mb-2 text-gray-600 text-sm;
+  }
+
+  form input {
+    @apply bg-gray-50 border border-gray-100 p-2 rounded-lg shadow-gray-100 shadow-md;
   }
 
   button[type='submit'] {
-    @apply bg-white border-b-4 border-b-amber-300 px-4 py-2 uppercase min-w-16;
+    @apply bg-amber-300 font-bold inset-shadow-sm py-3 px-4 rounded-lg shadow-gray-100 shadow-md text-sm text-white;
   }
 
   button[type='submit']:hover {
-    @apply duration-200 ease-in-out scale-125 transition;
+    @apply bg-amber-400;
   }
 
 </style>
