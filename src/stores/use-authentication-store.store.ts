@@ -20,7 +20,6 @@ export const useAuthenticationStore = defineStore('token', () => {
 
   const checkIfAuthenticated = () => {
     const tokenCookie = cookie.get('token');
-    console.log(tokenCookie);
     isLogged.value = tokenCookie ? true : false;
   }
 
