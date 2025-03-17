@@ -2,24 +2,29 @@
 
   // Vue and Router
 
-  import { useSnackbar, Vue3Snackbar } from 'vue3-snackbar';
-  import { ref, inject, useTemplateRef } from 'vue';
-  import { useEventListener } from '@vueuse/core';
   import { useRouter } from 'vue-router';
+  import { useEventListener } from '@vueuse/core';
+  import { ref, inject, useTemplateRef } from 'vue';
+  import { useSnackbar, Vue3Snackbar } from 'vue3-snackbar';
 
   // Services
 
   import { apiService } from './../services/api.service';
   import { helperService } from '@/services/helper.service';
 
-  // Interfaces
+  // Interfaces and Types
 
+  import type { Ref } from 'vue';
   import type { IAuthenticationLoginData } from '@/interfaces/authentication-login-data.interface';
   import type { IAuthenticationRequest } from '@/interfaces/authentication-request.interface';
   import type { IAuthenticationStore } from '@/interfaces/authentication-store.interface';
 
+  // Form
+
   const inputEmail = ref('');
   const inputPassword = ref('');
+
+  const errors: Ref<string[]> = ref([]);
 
   const snackbar = useSnackbar();
   const authenticationStore = inject('authentication') as IAuthenticationStore;
@@ -27,7 +32,7 @@
   const router = useRouter();
 
   // Validate Form
-  // Button is valid only when valid
+  // Button is valid only when the form itself is valid
 
   const form = useTemplateRef<HTMLFormElement>('form');
   const formInputEmail = useTemplateRef<HTMLInputElement>('email');
@@ -36,8 +41,18 @@
 
   useEventListener(form, 'input', (_: Event) => {
 
+    const _errors: string[] = [];
+
     const emailValidityStatus = helperService.isEmailValid(inputEmail.value);
     const passwordValidityStatus = helperService.isPasswordValid(inputPassword.value);
+
+    // Add errors to _errors
+    // make errors.value equal to _errors
+
+    if (!emailValidityStatus) _errors.push('Email is not valid.');
+    if (!passwordValidityStatus) _errors.push('Password must be at least 8 characters long.');
+
+    errors.value = _errors;
 
     // Set attribute aria-invalid if
     // email and/or password are invalid
@@ -50,6 +65,8 @@
     submitBtn.value!.disabled = !(emailValidityStatus && passwordValidityStatus);
 
   });
+
+  // Form Submit
 
   const onSubmit = async () => {
 
@@ -99,6 +116,10 @@
       <input ref="password" v-model="inputPassword" type="password" name="password" id="password" min="8" required>
     </fieldset>
 
+    <ul v-if="errors.length > 0" class="errors">
+      <li class="error" v-for="error of errors">{{ error }}</li>
+    </ul>
+
     <button ref="submitBtn" type="submit">Login</button>
 
   </form>
@@ -145,6 +166,14 @@
 
   button[type='submit']:disabled {
     @apply bg-gray-300 cursor-not-allowed;
+  }
+
+  .errors {
+    @apply list-disc;
+  }
+
+  .error {
+    @apply text-sm;
   }
 
 </style>

@@ -10,6 +10,11 @@ class HelperService {
     return regex.test(password);
   }
 
+  public isOnlyLettersAndSpaces(str: string) {
+    const regex = /^[a-zA-Z]+(?:[a-zA-Z\s]*[a-zA-Z]+)*$/;
+    return regex.test(str);
+  }
+
 }
 
 export const helperService = new HelperService();
