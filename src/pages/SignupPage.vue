@@ -1,7 +1,15 @@
 <script setup lang="ts">
 
+  // Vue
+
   import { ref } from 'vue';
 
+  // Services
+
+  import { apiService } from '@/services/api.service';
+  import { helperService } from '@/services/helper.service';
+
+  const inputName = ref('');
   const inputEmail = ref('');
   const inputPassword = ref('');
   const inputConfirmPassword = ref('');
@@ -10,20 +18,15 @@
 
   }
 
-  const isEmailValid = (email: string) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  }
-  
-  const isPasswordValid = (password: string) => {
-    const regex = /^.{8,}$/;
-    return regex.test(password);
-  }
-
 </script>
 
 <template>
   <form ref="form" @submit.prevent="onSubmit">
+
+  <fieldset>
+    <label for="text">Name</label>
+    <input ref="name" v-model="inputName" type="text" name="name" id="name" required>
+  </fieldset>
 
   <fieldset>
     <label for="email">Email</label>
@@ -33,6 +36,11 @@
   <fieldset>
     <label for="password">Password</label>
     <input ref="password" v-model="inputPassword" type="password" name="password" id="password" min="8" required>
+  </fieldset>
+
+  <fieldset>
+    <label for="confirm-password">Confirm Password</label>
+    <input ref="confirm-password" v-model="inputConfirmPassword" type="password" name="confirm-password" id="confirm-password" min="8" required>
   </fieldset>
 
   <button ref="submitBtn" type="submit">Login</button>
