@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-  import { ref, inject, useTemplateRef } from 'vue';
+  import { ref, inject, useTemplateRef, computed } from 'vue';
   import { useSnackbar, Vue3Snackbar } from 'vue3-snackbar';
   import { useEventListener } from '@vueuse/core';
   import { apiService } from './../services/api.service';
@@ -22,12 +22,25 @@
   // Button is valid only when valid
 
   const form = useTemplateRef<HTMLFormElement>('form');
+  const formInputEmail = useTemplateRef<HTMLInputElement>('email');
+  const formInputPassword = useTemplateRef<HTMLInputElement>('password');
   const submitBtn = useTemplateRef<HTMLButtonElement>('submitBtn');
 
   useEventListener(form, 'input', (_: Event) => {
+
     const emailValidityStatus = isEmailValid(inputEmail.value);
     const passwordValidityStatus = isPasswordValid(inputPassword.value);
+
+    // Set attribute aria-invalid if
+    // email and/or password are invalid
+
+    formInputEmail.value!.setAttribute('aria-invalid', JSON.stringify(!emailValidityStatus));
+    formInputPassword.value!.setAttribute('aria-invalid', JSON.stringify(!passwordValidityStatus));
+
+    // Disabled the button if invalid
+
     submitBtn.value!.disabled = !(emailValidityStatus && passwordValidityStatus);
+
   });
 
   const onSubmit = async () => {
@@ -80,12 +93,12 @@
 
     <fieldset>
       <label for="email">Email</label>
-      <input v-model="inputEmail" type="email" name="email" id="email">
+      <input ref="email" v-model="inputEmail" type="email" name="email" id="email" required>
     </fieldset>
 
     <fieldset>
       <label for="password">Password</label>
-      <input v-model="inputPassword" type="password" name="password" id="password">
+      <input ref="password" v-model="inputPassword" type="password" name="password" id="password" min="8" required>
     </fieldset>
 
     <button ref="submitBtn" type="submit">Login</button>
@@ -114,6 +127,14 @@
 
   form input {
     @apply bg-gray-50 border border-gray-100 p-2 rounded-lg shadow-gray-100 shadow-md;
+  }
+
+  form input:focus {
+    @apply outline-2 outline-amber-500;
+  }
+
+  form input[aria-invalid='true'] {
+    @apply outline-2 outline-red-500;
   }
 
   button[type='submit'] {
