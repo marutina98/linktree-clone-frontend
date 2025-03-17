@@ -1,0 +1,18 @@
+{
+  "extends": [
+  "@tsconfig/node22/tsconfig.json",
+  "@vue/tsconfig/tsconfig.json"
+  ],
+  "compilerOptions": {
+    "types": ["node"],
+    "moduleResolution": "nodenext",
+    "module": "NodeNext",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "lib": [
+      "dom"
+    ]
+  },
+  "exclude": ["node_modules", "dist"]
+}
