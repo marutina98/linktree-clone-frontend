@@ -2,6 +2,7 @@ import { ref } from 'vue';
 
 import { defineStore } from 'pinia';
 import { useCookies } from '@vueuse/integrations/useCookies';
+import type { IAuthenticationStore } from '@/interfaces/authentication-store.interface.ts';
 
 export const useAuthenticationStore = defineStore('token', () => {
 

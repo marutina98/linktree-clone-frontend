@@ -1,3 +1,4 @@
+import type { Ref } from 'vue';
 import type { RouteLocationNormalized } from 'vue-router';
 import type { IAuthenticationStore } from '@/interfaces/authentication-store.interface.ts';
 
@@ -8,7 +9,7 @@ export const isAuthenticatedGuard = (authenticatedStore: IAuthenticationStore, t
   // else return false
 
   authenticatedStore.checkIfAuthenticated();
-  if (authenticatedStore.isLogged.value) return true;
+  if ((authenticatedStore.isLogged as Ref<boolean>).value) return true;
   return false;
 
 }

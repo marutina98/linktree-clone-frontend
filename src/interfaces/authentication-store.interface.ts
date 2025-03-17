@@ -1,7 +1,7 @@
 import type { Ref } from "vue"
 
 interface IAuthenticationStore {
-  isLogged: Ref,
+  isLogged: Ref<boolean>|boolean,
   cookie: object,
   setToken: Function,
   deleteToken: Function,
