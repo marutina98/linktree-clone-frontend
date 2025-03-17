@@ -2,6 +2,7 @@
 
   import { ref, inject, useTemplateRef } from 'vue';
   import { useSnackbar, Vue3Snackbar } from 'vue3-snackbar';
+  import { useEventListener } from '@vueuse/core';
   import { apiService } from './../services/api.service';
 
   import type { IAuthenticationLoginData } from '@/interfaces/authentication-login-data.interface';
@@ -17,15 +18,19 @@
 
   const router = useRouter();
 
-  const form = useTemplateRef<HTMLFormElement>('form')
+  // Validate Form
+  // Button is valid only when valid
+
+  const form = useTemplateRef<HTMLFormElement>('form');
+  const submitBtn = useTemplateRef<HTMLButtonElement>('submitBtn');
+
+  useEventListener(form, 'input', (_: Event) => {
+    const emailValidityStatus = isEmailValid(inputEmail.value);
+    const passwordValidityStatus = isPasswordValid(inputPassword.value);
+    submitBtn.value!.disabled = !(emailValidityStatus && passwordValidityStatus);
+  });
 
   const onSubmit = async () => {
-
-    // @todo: validate email
-    // @todo: validate password
-
-    // @todo: make login button clickable solely
-    // when email and passwords are both valid
 
     const data: IAuthenticationLoginData = {
       email: inputEmail.value,
@@ -57,11 +62,21 @@
 
   }
 
+  const isEmailValid = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
+  
+  const isPasswordValid = (password: string) => {
+    const regex = /^.{8,}$/;
+    return regex.test(password);
+  }
+
 </script>
 
 <template>
 
-  <form @submit.prevent="onSubmit">
+  <form ref="form" @submit.prevent="onSubmit">
 
     <fieldset>
       <label for="email">Email</label>
@@ -73,7 +88,7 @@
       <input v-model="inputPassword" type="password" name="password" id="password">
     </fieldset>
 
-    <button type="submit">Login</button>
+    <button ref="submitBtn" type="submit">Login</button>
 
   </form>
 
@@ -107,6 +122,10 @@
 
   button[type='submit']:hover {
     @apply bg-amber-400;
+  }
+
+  button[type='submit']:disabled {
+    @apply bg-gray-300 cursor-not-allowed;
   }
 
 </style>
