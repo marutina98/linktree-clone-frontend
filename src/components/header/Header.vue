@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-  import type { IAuthenticatedStore } from '@/interfaces/authenticated-store.interface';
+  import type { IAuthenticationStore } from '@/interfaces/authentication-store.interface';
   import type { INavItem } from '@/interfaces/nav-item.interface';
   import { inject, onBeforeMount, ref } from 'vue';
   import HeaderLogoutButton from './HeaderLogoutButton.vue';
@@ -19,7 +19,7 @@
   // Check the status before mounting
   // component
 
-  const authenticationStore = inject('authentication') as IAuthenticatedStore;
+  const authenticationStore = inject('authentication') as IAuthenticationStore;
   
   onBeforeMount(() => {
     authenticationStore.checkIfAuthenticated();

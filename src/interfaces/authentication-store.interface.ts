@@ -1,6 +1,6 @@
 import type { Ref } from "vue"
 
-interface IAuthenticatedStore {
+interface IAuthenticationStore {
   isLogged: Ref,
   cookie: object,
   setToken: Function,
@@ -8,4 +8,4 @@ interface IAuthenticatedStore {
   checkIfAuthenticated: Function,
 }
 
-export type { IAuthenticatedStore }
+export type { IAuthenticationStore }

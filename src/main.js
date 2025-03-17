@@ -29,9 +29,9 @@ const pinia = createPinia();
 // Add Router and Plugins
 
 createApp(App)
-.use(router)
-.use(SnackbarService)
-.use(CookieConsentBanner, cookieConsentBannerConfig)
 .use(pinia)
 .provide('authentication', useAuthenticationStore())
+.use(SnackbarService)
+.use(CookieConsentBanner, cookieConsentBannerConfig)
+.use(router)
 .mount('#app');

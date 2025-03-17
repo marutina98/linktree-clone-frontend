@@ -1,19 +1,57 @@
 <script setup lang="ts">
 
-  import { ref } from 'vue';
+  import { ref, inject } from 'vue';
   import { useSnackbar, Vue3Snackbar } from 'vue3-snackbar';
+  import { apiService } from './../services/api.service';
+
+  import type { IAuthenticationLoginData } from '@/interfaces/authentication-login-data.interface';
+  import type { IAuthenticationRequest } from '@/interfaces/authentication-request.interface';
+  import type { IAuthenticationStore } from '@/interfaces/authentication-store.interface';
+  import { useRouter } from 'vue-router';
 
   const inputEmail = ref('');
   const inputPassword = ref('');
 
   const snackbar = useSnackbar();
-  
-  const onSubmit = () => {
+  const authenticationStore = inject('authentication') as IAuthenticationStore;
+
+  const router = useRouter();
+
+  const onSubmit = async () => {
+
+    // @todo: validate email
+    // @todo: validate password
+
+    // @todo: make login button clickable solely
+    // when email and passwords are both valid
+
+    const data: IAuthenticationLoginData = {
+      email: inputEmail.value,
+      password: inputPassword.value,
+    }
+
+    const request = await apiService.login(data);
+    const response = await request.json();
     
-    snackbar.add({
-      type: 'success',
-      text: 'You are logged in',
-    });
+    if (request.ok) {
+
+      authenticationStore.setToken((response as IAuthenticationRequest).token);
+
+      snackbar.add({
+        type: 'success',
+        text:'You are now logged in.'
+      });
+
+      router.push({
+        path: '/'
+      });
+
+    } else {
+      snackbar.add({
+        type: 'error',
+        text: 'Could not authenticate. Try Again.',
+      });
+    }
 
   }
 
