@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-  import { ref, inject } from 'vue';
+  import { ref, inject, useTemplateRef } from 'vue';
   import { useSnackbar, Vue3Snackbar } from 'vue3-snackbar';
   import { apiService } from './../services/api.service';
 
@@ -16,6 +16,8 @@
   const authenticationStore = inject('authentication') as IAuthenticationStore;
 
   const router = useRouter();
+
+  const form = useTemplateRef<HTMLFormElement>('form')
 
   const onSubmit = async () => {
 
