@@ -10,6 +10,16 @@
 
   }
 
+  const isEmailValid = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
+  
+  const isPasswordValid = (password: string) => {
+    const regex = /^.{8,}$/;
+    return regex.test(password);
+  }
+
 </script>
 
 <template>

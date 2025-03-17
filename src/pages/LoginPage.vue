@@ -1,14 +1,21 @@
 <script setup lang="ts">
 
-  import { ref, inject, useTemplateRef, computed } from 'vue';
+  // Vue and Router
+
   import { useSnackbar, Vue3Snackbar } from 'vue3-snackbar';
+  import { ref, inject, useTemplateRef } from 'vue';
   import { useEventListener } from '@vueuse/core';
+  import { useRouter } from 'vue-router';
+
+  // Services
+
   import { apiService } from './../services/api.service';
+
+  // Interfaces
 
   import type { IAuthenticationLoginData } from '@/interfaces/authentication-login-data.interface';
   import type { IAuthenticationRequest } from '@/interfaces/authentication-request.interface';
   import type { IAuthenticationStore } from '@/interfaces/authentication-store.interface';
-  import { useRouter } from 'vue-router';
 
   const inputEmail = ref('');
   const inputPassword = ref('');
