@@ -5,7 +5,7 @@
   import { useRouter } from 'vue-router';
   import { useEventListener } from '@vueuse/core';
   import { ref, inject, useTemplateRef } from 'vue';
-  import { useSnackbar, Vue3Snackbar } from 'vue3-snackbar';
+  import { useSnackbar } from 'vue3-snackbar';
 
   // Services
 
@@ -158,8 +158,6 @@
     <button ref="submitBtn" type="submit">Sign Up</button>
 
   </form>
-
-  <vue3-snackbar bottom right :duration="4000"></vue3-snackbar>
 
 </template>
 

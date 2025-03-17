@@ -6,6 +6,8 @@
   import Footer from './components/footer/Footer.vue';
   import { computed } from 'vue';
 
+  import { Vue3Snackbar } from 'vue3-snackbar';
+
   // Get current route
 
   const route = useRoute();
@@ -35,6 +37,8 @@
   </main>
 
   <Footer v-if="!isFooterHidden" />
+
+  <vue3-snackbar bottom right :duration="4000"></vue3-snackbar>
   
 </template>
 

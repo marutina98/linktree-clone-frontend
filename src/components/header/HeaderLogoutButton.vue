@@ -2,7 +2,7 @@
 
   import type { IAuthenticationStore } from '@/interfaces/authentication-store.interface';
   import { inject } from 'vue';
-  import { useSnackbar, Vue3Snackbar } from 'vue3-snackbar';
+  import { useSnackbar } from 'vue3-snackbar';
 
   const authenticationStore = inject('authentication') as IAuthenticationStore;
   const snackbar = useSnackbar();
@@ -19,7 +19,6 @@
 
 <template>
   <button @click="logout">Logout</button>
-  <vue3-snackbar bottom right :duration="4000"></vue3-snackbar>
 </template>
 
 <style scoped>
