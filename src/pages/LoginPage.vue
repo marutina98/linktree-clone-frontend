@@ -10,6 +10,7 @@
   // Services
 
   import { apiService } from './../services/api.service';
+  import { helperService } from '@/services/helper.service';
 
   // Interfaces
 
@@ -35,8 +36,8 @@
 
   useEventListener(form, 'input', (_: Event) => {
 
-    const emailValidityStatus = isEmailValid(inputEmail.value);
-    const passwordValidityStatus = isPasswordValid(inputPassword.value);
+    const emailValidityStatus = helperService.isEmailValid(inputEmail.value);
+    const passwordValidityStatus = helperService.isPasswordValid(inputPassword.value);
 
     // Set attribute aria-invalid if
     // email and/or password are invalid
@@ -80,16 +81,6 @@
       });
     }
 
-  }
-
-  const isEmailValid = (email: string) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  }
-  
-  const isPasswordValid = (password: string) => {
-    const regex = /^.{8,}$/;
-    return regex.test(password);
   }
 
 </script>
