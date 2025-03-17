@@ -15,6 +15,9 @@ import App from './App.vue';
 import CookieConsentBanner from './plugins/cookie-consent-banner.plugin';
 import cookieConsentBannerConfig from './settings/cookie-consent-banner-config';
 
+import { SnackbarService } from 'vue3-snackbar';
+import 'vue3-snackbar/styles';
+
 import router from './routes/router';
 
 // Provide useAuthenticationStore to the entire App
@@ -27,6 +30,7 @@ const pinia = createPinia();
 
 createApp(App)
 .use(router)
+.use(SnackbarService)
 .use(CookieConsentBanner, cookieConsentBannerConfig)
 .use(pinia)
 .provide('authentication', useAuthenticationStore())
