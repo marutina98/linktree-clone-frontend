@@ -62,7 +62,7 @@
   @reference 'tailwindcss';
 
   .container {
-    @apply flex flex-col p-4 min-w-full;
+    @apply flex flex-col p-8 min-w-full;
   }
 
   .tabs {
@@ -70,19 +70,19 @@
   }
 
   .tab {
-    @apply bg-white px-4 py-2;
+    @apply bg-white min-w-32 px-4 py-2 text-center;
   }
 
-  .tab:hover {
-    
+  .tab:not(.active) {
+    @apply bg-amber-200;
   }
 
   .tab.active {
-    @apply font-bold pointer-events-none;
+    @apply bg-amber-100 font-bold pointer-events-none;
   }
 
   .component {
-    @apply bg-white p-4;
+    @apply bg-amber-100 p-4;
   }
 
 </style>
