@@ -9,6 +9,8 @@ export const useAuthenticationStore = defineStore('token', () => {
   const cookie = useCookies(['token']);
   const isLogged = ref(false);
 
+  const getToken = () => cookie.get('token');
+
   const setToken = (token: string) => {
     cookie.set('token', token);
     isLogged.value = true;
@@ -27,6 +29,7 @@ export const useAuthenticationStore = defineStore('token', () => {
   return {
     isLogged,
     cookie,
+    getToken,
     setToken,
     deleteToken,
     checkIfAuthenticated,

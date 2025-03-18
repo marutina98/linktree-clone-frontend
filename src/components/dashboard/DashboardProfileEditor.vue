@@ -1,7 +1,46 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+
+  import { computed, defineProps } from 'vue';
+
+  const props = defineProps({
+    user: {
+      type: [Object, null],
+      required: true
+    }
+  });
+
+  const user = computed(() => props.user);
+
+</script>
+
 <template>
-  <p>
-    Profile
-  </p>
+  <div class="grid">
+
+    <div class="editor">
+      Editor
+    </div>
+
+    <div class="preview">
+      Preview
+    </div>
+
+  </div>
 </template>
-<style scoped></style>
+
+<style scoped>
+
+  @reference 'tailwindcss';
+
+  .grid {
+    @apply grid grid-cols-2;
+  }
+
+  .editor {
+
+  }
+
+  .preview {
+
+  }
+
+</style>

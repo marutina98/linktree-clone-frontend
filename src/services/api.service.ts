@@ -1,11 +1,10 @@
 import type { IAuthenticationLoginData } from '@/interfaces/authentication-login-data.interface.ts';
 import type { IAuthenticationSignupData } from '@/interfaces/authentication-signup-data.interface.ts';
+import { useAuthenticationStore } from '@/stores/use-authentication-store.store.ts';
 
 class ApiService {
 
   private baseURL: string = 'http://localhost:8000/api/';
-
-  // @todo: add method that gets correct headers
 
   async login(data: IAuthenticationLoginData) {
 
@@ -14,9 +13,7 @@ class ApiService {
     return await fetch(api, {
       mode: 'cors',
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: this.getHeaders('POST'),
       body: JSON.stringify(data),
     });
 
@@ -29,11 +26,47 @@ class ApiService {
     return await fetch(api, {
       mode: 'cors',
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: this.getHeaders('POST'),
       body: JSON.stringify(data),
     });
+
+  }
+
+  async getAuthenticatedUser() {
+
+    const api = this.baseURL + 'users/authenticated';
+
+    return await fetch(api, {
+      mode: 'cors',
+      method: 'GET',
+      headers: this.getHeaders('GET')
+    });
+
+  }
+
+  getHeaders (method: string) {
+
+    const headers = [
+      ['Access-Control-Allow-Headers', '*'],
+    ];
+
+    const authenticationStore = useAuthenticationStore();
+
+    // Check if user is authenticated
+
+    authenticationStore.checkIfAuthenticated();
+    const isLogged = authenticationStore.isLogged;
+
+    if (method === 'POST') {
+      headers.push(['Content-Type', 'application/json']);
+    }
+
+    if (isLogged) {
+      const token = authenticationStore.getToken();
+      headers.push(['Authorization', `Bearer ${token}`]);
+    }
+
+    return Object.fromEntries(headers);
 
   }
 

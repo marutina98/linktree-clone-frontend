@@ -1,9 +1,14 @@
 <script setup lang="ts">
 
-  import { ref, computed, useTemplateRef } from 'vue';
+  import { ref, computed, useTemplateRef, onBeforeMount } from 'vue';
+
+  import { apiService } from '@/services/api.service';
 
   import DashboardLinksEditor from './DashboardLinksEditor.vue';
   import DashboardProfileEditor from './DashboardProfileEditor.vue';
+  
+  import type { Ref } from 'vue';
+  import type { IUser } from '@/interfaces/user.interface';
 
   const tabs = [
     { name: 'Profile', component: DashboardProfileEditor },
@@ -11,6 +16,9 @@
   ]
 
   const currentTab = ref(0);
+  const user: Ref<IUser|null> = ref(null);
+
+  const getUser = computed(() => user.value);
 
   const changeCurrentTab = (tabIndex: number) => {
     currentTab.value = tabIndex;
@@ -24,9 +32,11 @@
 
     const activeTabClass = `tab-${tabIndex}`;
 
-    tabElementsArray.forEach((element: HTMLElement) => {
+    tabElementsArray.forEach((element) => {
+      const htmlElement = element as HTMLElement;
 
-      const isActiveTab = [...element.classList].includes(activeTabClass);
+      const isActiveTab = Array.from(htmlElement.classList)
+                          .includes(activeTabClass);
 
       if (isActiveTab) {
         element.classList.add('active');
@@ -37,6 +47,17 @@
     });
 
   }
+
+  onBeforeMount(async () => {
+
+    const request = await apiService.getAuthenticatedUser();
+
+    if (request.ok) {
+      const response = await request.json();
+      user.value = response;
+    }
+
+  });
 
 </script>
 
@@ -51,7 +72,7 @@
       </template>
     </ul>
 
-    <component class="component" :is="tabs[currentTab].component"></component>
+    <component :user="getUser" class="component" :is="tabs[currentTab].component"></component>
 
   </div>
 
