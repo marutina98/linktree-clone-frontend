@@ -9,7 +9,7 @@
 
   // Services
 
-  import { apiService } from './../services/api.service';
+  import { apiService } from '@/services/api.service';
   import { helperService } from '@/services/helper.service';
 
   // Interfaces and Types

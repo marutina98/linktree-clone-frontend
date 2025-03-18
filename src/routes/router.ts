@@ -1,9 +1,9 @@
 import { createWebHistory, createRouter, type RouteLocationNormalized } from 'vue-router';
 
-import HomePage from '@/pages/HomePage.vue';
-import LoginPage from '@/pages/LoginPage.vue';
-import SignupPage from '@/pages/SignupPage.vue';
-import DashboardPage from '@/pages/DashboardPage.vue';
+import Home from '@/components/home/Home.vue';
+import Login from '@/components/login/Login.vue';
+import Signup from '@/components/signup/Signup.vue';
+import Dashboard from '@/components/dashboard/Dashboard.vue';
 
 import { isAuthenticatedGuard } from '@/guards/is-authenticated.guard.ts';
 import { isGuestGuard } from '@/guards/is-guest.guard.ts';
@@ -14,12 +14,12 @@ const routes = [
 
   {
     path: '/',
-    component: HomePage
+    component: Home
   },
 
   {
     path: '/login',
-    component: LoginPage,
+    component: Login,
     beforeEnter: (to: RouteLocationNormalized, from: RouteLocationNormalized) => {
       const store = useAuthenticationStore();
       isGuestGuard(store, to, from);
@@ -28,7 +28,7 @@ const routes = [
 
   {
     path: '/signup',
-    component: SignupPage,
+    component: Signup,
     beforeEnter: (to: RouteLocationNormalized, from: RouteLocationNormalized) => {
       const store = useAuthenticationStore();
       isGuestGuard(store, to, from);
@@ -37,7 +37,7 @@ const routes = [
 
   {
     path: '/dashboard',
-    component: DashboardPage,
+    component: Dashboard,
     beforeEnter: (to: RouteLocationNormalized, from: RouteLocationNormalized) => {
       const store = useAuthenticationStore();
       isAuthenticatedGuard(store, to, from);
