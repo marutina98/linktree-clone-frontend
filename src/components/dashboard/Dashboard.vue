@@ -51,7 +51,7 @@
       </template>
     </ul>
 
-    <component :is="tabs[currentTab].component"></component>
+    <component class="component" :is="tabs[currentTab].component"></component>
 
   </div>
 
@@ -59,8 +59,30 @@
 
 <style scoped>
 
-  .active {
-    background-color: red;
+  @reference 'tailwindcss';
+
+  .container {
+    @apply flex flex-col p-4 min-w-full;
+  }
+
+  .tabs {
+    @apply flex flex-row;
+  }
+
+  .tab {
+    @apply bg-white px-4 py-2;
+  }
+
+  .tab:hover {
+    
+  }
+
+  .tab.active {
+    @apply font-bold pointer-events-none;
+  }
+
+  .component {
+    @apply bg-white p-4;
   }
 
 </style>
