@@ -49,6 +49,9 @@
         <li v-if="index === currentTab" @click="changeCurrentTab(index)" :class="['tab', `tab-${index}`, 'active']">{{ tab.name }}</li>
         <li v-else="index === currentTab" @click="changeCurrentTab(index)" :class="['tab', `tab-${index}`]">{{ tab.name }}</li>
       </template>
+      <li class="tab">Tab</li>
+      <li class="tab">Tab</li>
+      <li class="tab">Tab</li>
     </ul>
 
     <component class="component" :is="tabs[currentTab].component"></component>
@@ -66,7 +69,7 @@
   }
 
   .tabs {
-    @apply flex flex-row;
+    @apply flex flex-row gap-2;
   }
 
   .tab {
@@ -74,15 +77,16 @@
   }
 
   .tab:not(.active) {
-    @apply bg-amber-200;
+    @apply bg-gray-100 border-gray-100;
+    box-shadow: inset 0px -5px 5px 0px rgba(0,0,0,0.025);
   }
 
   .tab.active {
-    @apply bg-amber-100 font-bold pointer-events-none;
+    @apply bg-white border-t-4 border-t-amber-400 font-bold pointer-events-none;
   }
 
   .component {
-    @apply bg-amber-100 p-4;
+    @apply bg-white p-4;
   }
 
 </style>
