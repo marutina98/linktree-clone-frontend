@@ -49,9 +49,6 @@
         <li v-if="index === currentTab" @click="changeCurrentTab(index)" :class="['tab', `tab-${index}`, 'active']">{{ tab.name }}</li>
         <li v-else="index === currentTab" @click="changeCurrentTab(index)" :class="['tab', `tab-${index}`]">{{ tab.name }}</li>
       </template>
-      <li class="tab">Tab</li>
-      <li class="tab">Tab</li>
-      <li class="tab">Tab</li>
     </ul>
 
     <component class="component" :is="tabs[currentTab].component"></component>
@@ -86,7 +83,7 @@
   }
 
   .component {
-    @apply bg-white p-4;
+    @apply bg-white;
   }
 
 </style>
