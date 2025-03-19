@@ -20,10 +20,8 @@
 
     <template v-if="user">
       <header class="profile-header">
-        <div class="profile-picture">
-          <img :src="user.profile.picture" :alt="user.profile.name">
-          <span> {{ user.profile.name }}</span>
-        </div>
+        <img class="profile-picture ":src="user.profile.picture" :alt="user.profile.name">
+        <span class="profile-name"> {{ user.profile.name }}</span>
         <button class="profile-edit-btn">Edit Profile</button>
       </header>
     </template>
@@ -37,15 +35,19 @@
   @reference 'tailwindcss';
 
   .profile {
-    @apply flex items-center justify-center;
+    @apply flex items-center justify-center p-4;
   }
 
   .profile-header {
-    @apply flex flex-col items-center justify-center w-full;
+    @apply flex flex-col gap-4 items-center justify-center w-full;
   }
 
-  .profile-picture img {
+  .profile-picture {
     @apply border-8 border-white ring-2 ring-gray-100 rounded-full max-w-36;
+  }
+
+  .profile-name {
+    @apply bg-black bottom-5 left-0 py-1 px-6 rounded-full text-sm text-white;
   }
 
 </style>
