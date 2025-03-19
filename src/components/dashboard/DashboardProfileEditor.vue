@@ -1,7 +1,11 @@
 <script setup lang="ts">
 
   import { computed } from 'vue';
+  import { openModal } from 'jenesius-vue-modal';
+
   import type { IUser } from '@/interfaces/user.interface';
+
+  import DashboardEditProfileModal from './DashboardEditProfileModal.vue';
 
   const props = defineProps({
     user: {
@@ -11,6 +15,15 @@
   });
 
   const user = computed(() => props.user as IUser);
+
+  // Open Edit Modal and Pass user to it
+
+  const openEditModal = () => {
+    const props = {
+      user
+    }
+    openModal(DashboardEditProfileModal, props)
+  };
 
 </script>
 
@@ -45,7 +58,7 @@
             </div>
           </div>
 
-          <button class="profile-edit-btn">Edit Profile</button>
+          <button @click="openEditModal" class="profile-edit-btn">Edit Profile</button>
 
         </div>
       </template>

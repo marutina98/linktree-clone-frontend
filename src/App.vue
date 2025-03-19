@@ -7,6 +7,7 @@
   import { computed } from 'vue';
 
   import { Vue3Snackbar } from 'vue3-snackbar';
+  import { container } from 'jenesius-vue-modal';
 
   // Get current route
 
@@ -26,6 +27,9 @@
     return isHeaderHidden.value && isFooterHidden.value;
   });
 
+  // Modal Container
+  const WidgetContainerModal = container;
+
 </script>
 
 <template>
@@ -39,6 +43,7 @@
   <Footer v-if="!isFooterHidden" />
 
   <vue3-snackbar bottom right :duration="4000"></vue3-snackbar>
+  <WidgetContainerModal />
   
 </template>
 
