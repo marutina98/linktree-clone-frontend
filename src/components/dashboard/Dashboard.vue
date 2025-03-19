@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-  import { ref, computed, useTemplateRef, onBeforeMount } from 'vue';
+  import { ref, computed, onBeforeMount } from 'vue';
 
   import { apiService } from '@/services/api.service';
 
@@ -13,7 +13,7 @@
   const tabs = [
     { name: 'Profile', component: DashboardProfileEditor },
     { name: 'Links', component: DashboardLinksEditor }
-  ]
+  ];
 
   const currentTab = ref(0);
   const user: Ref<IUser|null> = ref(null);
