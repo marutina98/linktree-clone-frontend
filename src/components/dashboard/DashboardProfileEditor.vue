@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
   import { computed } from 'vue';
+  import type { IUser } from '@/interfaces/user.interface';
 
   const props = defineProps({
     user: {
@@ -9,38 +10,42 @@
     }
   });
 
-  const user = computed(() => props.user);
+  const user = computed(() => props.user as IUser);
 
 </script>
 
 <template>
-  <div class="grid">
 
-    <div class="editor">
-      Editor
-    </div>
+  <div class="profile">
 
-    <div class="preview">
-      Preview
-    </div>
+    <template v-if="user">
+      <header class="profile-header">
+        <div class="profile-picture">
+          <img :src="user.profile.picture" :alt="user.profile.name">
+          <span> {{ user.profile.name }}</span>
+        </div>
+        <button class="profile-edit-btn">Edit Profile</button>
+      </header>
+    </template>
 
   </div>
+
 </template>
 
 <style scoped>
 
   @reference 'tailwindcss';
 
-  .grid {
-    @apply grid grid-cols-2;
+  .profile {
+    @apply flex items-center justify-center;
   }
 
-  .editor {
-
+  .profile-header {
+    @apply flex flex-col items-center justify-center w-full;
   }
 
-  .preview {
-
+  .profile-picture img {
+    @apply border-8 border-white ring-2 ring-gray-100 rounded-full max-w-36;
   }
 
 </style>

@@ -15,6 +15,12 @@ class HelperService {
     return regex.test(str);
   }
 
+  public convertBase64ToImage(base64: string) {
+    const image = new Image();
+    image.src = base64;
+    return image;
+  }
+
 }
 
 export const helperService = new HelperService();
