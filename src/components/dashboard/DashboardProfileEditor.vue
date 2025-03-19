@@ -19,10 +19,7 @@
   // Open Edit Modal and Pass user to it
 
   const openEditModal = () => {
-    const props = {
-      user
-    }
-    openModal(DashboardEditProfileModal, props)
+    openModal(DashboardEditProfileModal, { user })
   };
 
 </script>
