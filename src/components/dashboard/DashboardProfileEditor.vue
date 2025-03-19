@@ -28,25 +28,25 @@
 
         <div class="profile-right">
           
-          <div class="profile-info profile-name">
-            <div class="profile-info-label">Name</div>
-            <div class="profile-info-content">{{ user.profile.name }}</div>
+          <div class="profile-data">
+            <div class="profile-info profile-name">
+              <div class="profile-info-label">Name</div>
+              <div class="profile-info-content">{{ user.profile.name }}</div>
+            </div>
+
+            <div class="profile-info profile-email">
+              <div class="profile-info-label">Email</div>
+              <div class="profile-info-content">{{ user.email }}</div>
+            </div>
+
+            <div class="profile-info profile-biography">
+              <div class="profile-info-label">Biography</div>
+              <div class="profile-info-content">{{ user.profile.biography }}</div>
+            </div>
           </div>
 
-          <div class="profile-info profile-email">
-            <div class="profile-info-label">Email</div>
-            <div class="profile-info-content">{{ user.email }}</div>
-          </div>
-
-          <div class="profile-info profile-biography">
-            <div class="profile-info-label">Biography</div>
-            <div class="profile-info-content">{{ user.profile.biography }}</div>
-          </div>
-
-        </div>
-
-        <div class="profile-bottom">
           <button class="profile-edit-btn">Edit Profile</button>
+
         </div>
       </template>
 
@@ -66,12 +66,11 @@
 
   .profile {
     @apply gap-8 grid items-center justify-center p-4;
-    grid-template-areas: 'left right'
-                         'bottom bottom';
+    grid-template-areas: 'left right';
   }
 
   .profile-left {
-    @apply flex flex-col gap-4 items-center justify-center w-full;
+    @apply flex flex-col gap-4 items-center justify-center;
     grid-area: left;
   }
 
@@ -80,15 +79,29 @@
   }
 
   .profile-right {
+    @apply gap-4 flex flex-col;
     grid-area: right;
+  }
+
+  .profile-data {
+    @apply gap-2 flex flex-col;
   }
 
   .profile-info {
     @apply flex flex-row border-b-2 border-amber-300;
   }
 
+  .profile-info-label,
+  .profile-info-content {
+    @apply py-2 px-4 text-sm;
+  }
+
   .profile-info-label {
-    @apply font-bold;
+    @apply bg-amber-50 font-bold uppercase max-w-1/2;
+  }
+
+  .profile-info-content {
+    @apply bg-gray-50 w-full;
   }
 
   .profile-bottom {
@@ -97,7 +110,11 @@
   }
 
   .profile-edit-btn {
-    @apply bg-amber-300 cursor-pointer px-4 py-2 uppercase min-w-16;
+    @apply bg-amber-50 border-b-2 border-amber-300 cursor-pointer min-w-16 px-8 py-2 rounded-md text-sm uppercase;
+  }
+
+  .profile-edit-btn:hover {
+    @apply duration-200 ease-in-out scale-110 transition;
   }
 
 </style>
