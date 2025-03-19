@@ -16,25 +16,41 @@
 
 <template>
 
-  <div class="profile">
+  <div class="wrapper">
 
-    <template v-if="user">
-      <div class="profile-left">
-        <img class="profile-picture ":src="user.profile.picture" :alt="user.profile.name">
-        <span class="profile-name"> {{ user.profile.name }}</span>
-      </div>
+    <div class="profile">
 
-      <div class="profile-right">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-        Est, cum optio aliquid ipsa eaque esse expedita blanditiis
-        similique earum reiciendis placeat enim rem nemo assumenda,
-        incidunt quam quae voluptatum veniam.
-      </div>
+      <template v-if="user">
+        
+        <div class="profile-left">
+          <img class="profile-picture ":src="user.profile.picture" :alt="user.profile.name">
+        </div>
 
-      <div class="profile-bottom">
-        <button class="profile-edit-btn">Edit Profile</button>
-      </div>
-    </template>
+        <div class="profile-right">
+          
+          <div class="profile-info profile-name">
+            <div class="profile-info-label">Name</div>
+            <div class="profile-info-content">{{ user.profile.name }}</div>
+          </div>
+
+          <div class="profile-info profile-email">
+            <div class="profile-info-label">Email</div>
+            <div class="profile-info-content">{{ user.email }}</div>
+          </div>
+
+          <div class="profile-info profile-biography">
+            <div class="profile-info-label">Biography</div>
+            <div class="profile-info-content">{{ user.profile.biography }}</div>
+          </div>
+
+        </div>
+
+        <div class="profile-bottom">
+          <button class="profile-edit-btn">Edit Profile</button>
+        </div>
+      </template>
+
+    </div>
 
   </div>
 
@@ -44,8 +60,12 @@
 
   @reference 'tailwindcss';
 
+  .wrapper {
+    @apply flex items-center justify-center;
+  }
+
   .profile {
-    @apply gap-4 grid items-center justify-center p-4;
+    @apply gap-8 grid items-center justify-center p-4;
     grid-template-areas: 'left right'
                          'bottom bottom';
   }
@@ -59,12 +79,16 @@
     @apply border-8 border-white ring-2 ring-gray-100 rounded-full max-w-36;
   }
 
-  .profile-name {
-    @apply bg-black bottom-5 left-0 py-1 px-6 rounded-full text-sm text-white;
-  }
-
   .profile-right {
     grid-area: right;
+  }
+
+  .profile-info {
+    @apply flex flex-row border-b-2 border-amber-300;
+  }
+
+  .profile-info-label {
+    @apply font-bold;
   }
 
   .profile-bottom {
