@@ -19,11 +19,21 @@
   <div class="profile">
 
     <template v-if="user">
-      <header class="profile-header">
+      <div class="profile-left">
         <img class="profile-picture ":src="user.profile.picture" :alt="user.profile.name">
         <span class="profile-name"> {{ user.profile.name }}</span>
+      </div>
+
+      <div class="profile-right">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+        Est, cum optio aliquid ipsa eaque esse expedita blanditiis
+        similique earum reiciendis placeat enim rem nemo assumenda,
+        incidunt quam quae voluptatum veniam.
+      </div>
+
+      <div class="profile-bottom">
         <button class="profile-edit-btn">Edit Profile</button>
-      </header>
+      </div>
     </template>
 
   </div>
@@ -35,11 +45,14 @@
   @reference 'tailwindcss';
 
   .profile {
-    @apply flex items-center justify-center p-4;
+    @apply gap-4 grid items-center justify-center p-4;
+    grid-template-areas: 'left right'
+                         'bottom bottom';
   }
 
-  .profile-header {
+  .profile-left {
     @apply flex flex-col gap-4 items-center justify-center w-full;
+    grid-area: left;
   }
 
   .profile-picture {
@@ -48,6 +61,19 @@
 
   .profile-name {
     @apply bg-black bottom-5 left-0 py-1 px-6 rounded-full text-sm text-white;
+  }
+
+  .profile-right {
+    grid-area: right;
+  }
+
+  .profile-bottom {
+    @apply flex items-center justify-center;
+    grid-area: bottom;
+  }
+
+  .profile-edit-btn {
+    @apply bg-amber-300 cursor-pointer px-4 py-2 uppercase min-w-16;
   }
 
 </style>

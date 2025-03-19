@@ -26,7 +26,7 @@
   @reference 'tailwindcss';
 
   button {
-    @apply bg-white border-b-4 border-b-amber-300 px-4 py-2 uppercase min-w-16;
+    @apply bg-white border-b-4 border-b-amber-300 cursor-pointer px-4 py-2 uppercase min-w-16;
   }
 
   button:hover {
