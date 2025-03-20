@@ -160,8 +160,6 @@
 
     if (getCheckPassword) {
 
-      console.log(formInputPassword, formInputConfirmPassword);
-
       const passwordValidityStatus = helperService.isPasswordValid(inputPassword.value);
       const confirmPasswordValidityStatus = helperService.isPasswordValid(inputConfirmPassword.value);
       const passwordsAreEqual = inputPassword.value === inputConfirmPassword.value;
