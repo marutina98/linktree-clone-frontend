@@ -57,14 +57,6 @@
   const inputPassword = ref('');
   const inputConfirmPassword = ref('');
 
-  // If the checkbox is true
-  // the user has decided to change password
-
-  const checkPassword = ref(false);
-  const getCheckPassword = computed(() => checkPassword.value);
-
-  // @todo: add picture
-
   // Form onSubmit
 
   const onSubmit = async () => {
@@ -83,7 +75,9 @@
       data.push(['biography', biography]);
     }
 
-    if (getCheckPassword) {
+    // If the password is empty, do not change
+
+    if (inputPassword.value.length > 0) {
       data.push(['password', inputPassword.value]);
     }
 
@@ -156,9 +150,9 @@
 
     const statuses = [emailValidityStatus, nameValidityStatus, biographyValidityStatus];
 
-    // If the user has decided to change password
+    // If the password is empty then do not change the password
 
-    if (getCheckPassword) {
+    if (inputPassword.value.length > 0) {
 
       const passwordValidityStatus = helperService.isPasswordValid(inputPassword.value);
       const confirmPasswordValidityStatus = helperService.isPasswordValid(inputConfirmPassword.value);
@@ -172,6 +166,11 @@
 
       statuses.push(passwordValidityStatus, passwordsAreEqual)
 
+    }
+
+    if (inputPassword.value.length === 0) {
+      formInputPassword.value?.setAttribute('aria-invalid', 'false');
+      formInputConfirmPassword.value?.setAttribute('aria-invalid', 'false');
     }
 
     errors.value = _errors;
@@ -225,21 +224,14 @@
       <input ref="picture" @change="onFileUpload" accept="image/*" type="file" name="picture" id="picture">
     </fieldset>
 
-    <!-- @todo: add password -->
-
-    <fieldset class="checkbox">
-      <input ref="check-password" v-model="checkPassword" type="checkbox" name="check-password" id="check-password">
-      <label for="check-password">Change Password</label>
-    </fieldset>    
-
-    <fieldset :class="{ 'hidden': !getCheckPassword }">
-      <label for="password">Password</label>
-      <input ref="password" v-model="inputPassword" type="password" name="password" id="password" min="8" required>
+    <fieldset>
+      <label for="password">Password (Keep Empty if you don't want to change it.)</label>
+      <input ref="password" v-model="inputPassword" type="password" name="password" id="password" min="8">
     </fieldset>
 
-    <fieldset :class="{ 'hidden': !getCheckPassword }">
+    <fieldset>
       <label for="confirm-password">Confirm Password</label>
-      <input ref="confirm-password" v-model="inputConfirmPassword" type="password" name="confirm-password" id="confirm-password" min="8" required>
+      <input ref="confirm-password" v-model="inputConfirmPassword" type="password" name="confirm-password" id="confirm-password" min="8">
     </fieldset>
 
     <ul v-if="errors.length > 0" class="errors">
@@ -304,10 +296,6 @@
 
   .error {
     @apply text-sm;
-  }
-
-  .hidden {
-    @apply hidden;
   }
 
 </style>
