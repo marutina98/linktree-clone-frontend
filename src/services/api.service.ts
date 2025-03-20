@@ -1,5 +1,6 @@
 import type { IAuthenticationLoginData } from '@/interfaces/authentication-login-data.interface.ts';
 import type { IAuthenticationSignupData } from '@/interfaces/authentication-signup-data.interface.ts';
+import type { IProfileEditData } from '@/interfaces/profile-edit-data.interface.ts';
 import { useAuthenticationStore } from '@/stores/use-authentication-store.store.ts';
 
 class ApiService {
@@ -9,11 +10,12 @@ class ApiService {
   async login(data: IAuthenticationLoginData) {
 
     const api = this.baseURL + 'authentication/login';
+    const method = 'POST';
 
     return await fetch(api, {
       mode: 'cors',
-      method: 'POST',
-      headers: this.getHeaders('POST'),
+      method: method,
+      headers: this.getHeaders(method),
       body: JSON.stringify(data),
     });
 
@@ -22,11 +24,12 @@ class ApiService {
   async signup(data: IAuthenticationSignupData) {
 
     const api = this.baseURL + 'authentication/register';
+    const method = 'POST';
 
     return await fetch(api, {
       mode: 'cors',
-      method: 'POST',
-      headers: this.getHeaders('POST'),
+      method: method,
+      headers: this.getHeaders(method),
       body: JSON.stringify(data),
     });
 
@@ -35,11 +38,26 @@ class ApiService {
   async getAuthenticatedUser() {
 
     const api = this.baseURL + 'users/authenticated';
+    const method = 'GET';
 
     return await fetch(api, {
       mode: 'cors',
-      method: 'GET',
-      headers: this.getHeaders('GET')
+      method: method,
+      headers: this.getHeaders(method)
+    });
+
+  }
+
+  async updateProfile(data: IProfileEditData) {
+
+    const api = this.baseURL + 'users';
+    const method = 'GET';
+
+    return await fetch(api, {
+      mode: 'cors',
+      method: method,
+      body: JSON.stringify(data),
+      headers: this.getHeaders(method)
     });
 
   }
@@ -57,7 +75,7 @@ class ApiService {
     authenticationStore.checkIfAuthenticated();
     const isLogged = authenticationStore.isLogged;
 
-    if (method === 'POST') {
+    if (method === 'POST' || method === 'PUT') {
       headers.push(['Content-Type', 'application/json']);
     }
 

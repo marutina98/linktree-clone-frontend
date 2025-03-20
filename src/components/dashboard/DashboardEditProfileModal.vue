@@ -50,9 +50,33 @@
   const inputEmail = ref(user.value.email);
   const inputBiography = ref(user.value.profile.biography);
 
+  // @todo: add picture
+
   // Form onSubmit
 
   const onSubmit = () => {
+
+    const data: [string, string][] = [];
+
+    const isNameSame = inputName.value === user.value.profile.name;
+    const isEmailSame = inputEmail.value === user.value.email;
+    const isBiographySame = inputBiography.value === user.value.profile.biography;
+
+    // @todo: add picture
+
+    if (!isNameSame) data.push(['name', inputName.value]);
+    if (!isEmailSame) data.push(['email', inputEmail.value]);
+
+    if (!isBiographySame) {
+      const biography = helperService.sanitizeBiography(inputBiography.value);
+      data.push(['biography', biography]);
+    }
+
+    if (data.length === 0) {
+      // @todo: add error, because profile cannot be edited
+    }
+
+    console.log(Object.fromEntries(data));
 
   }
 
@@ -64,6 +88,8 @@
   const formInputBiography = useTemplateRef<HTMLInputElement>('biography');
   const submitBtn = useTemplateRef<HTMLButtonElement>('submitBtn');
 
+  // @todo: add picture
+
   // Validate Form
 
   useEventListener(form, 'input', (_: Event) => {
@@ -73,13 +99,17 @@
     const nameValidityStatus = helperService.isOnlyLettersAndSpaces(inputName.value);
     const emailValidityStatus = helperService.isEmailValid(inputEmail.value);
 
-    // @todo: biography
+    const biography = helperService.sanitizeBiography(inputBiography.value);
+    const biographyValidityStatus = helperService.isValidBiography(biography);
+
+    // @todo: add picture
 
     // Add errors to _errors
     // make errors.value equal to _errors
 
     if (!nameValidityStatus) _errors.push('Name must only consists of letters and spaces');
     if (!emailValidityStatus) _errors.push('Email is not valid.');
+    if (!biographyValidityStatus) _errors.push('Biography length must be between 0 and 255.');
 
     errors.value = _errors;
 
@@ -88,10 +118,11 @@
 
     formInputName.value!.setAttribute('aria-invalid', JSON.stringify(!nameValidityStatus));
     formInputEmail.value!.setAttribute('aria-invalid', JSON.stringify(!emailValidityStatus));
+    formInputBiography.value!.setAttribute('aria-invalid', JSON.stringify(!biographyValidityStatus));
 
     // Disabled the button if invalid
 
-    submitBtn.value!.disabled = !(emailValidityStatus && nameValidityStatus);
+    submitBtn.value!.disabled = !(emailValidityStatus && nameValidityStatus && biographyValidityStatus);
 
   });
 
@@ -102,18 +133,20 @@
 
     <fieldset>
       <label for="name">Name</label>
-      <input ref="name" v-model="inputName" type="text" name="name" id="name" required>
+      <input ref="name" v-model="inputName" type="text" name="name" id="name">
     </fieldset>
     
     <fieldset>
       <label for="biography">Biography</label>
-      <input ref="biography" v-model="inputBiography" type="text" name="biography" id="biography" required>
+      <input ref="biography" v-model="inputBiography" type="text" name="biography" id="biography">
     </fieldset>
 
     <fieldset>
       <label for="email">Email</label>
-      <input ref="email" v-model="inputEmail" type="email" name="email" id="email" required>
+      <input ref="email" v-model="inputEmail" type="email" name="email" id="email">
     </fieldset>
+
+    <!-- @todo: add picture -->
 
     <ul v-if="errors.length > 0" class="errors">
       <li class="error" v-for="error of errors">{{ error }}</li>
