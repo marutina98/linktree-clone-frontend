@@ -4,6 +4,8 @@
   import { useSnackbar } from 'vue3-snackbar';
   import { useEventListener } from '@vueuse/core';
 
+  import { getCurrentModal } from 'jenesius-vue-modal';
+
   // Interfaces and Types
 
   import type { Ref } from 'vue';
@@ -82,14 +84,19 @@
     if (request.ok) {
       
       const response = await request.json();
-      authenticationStore.setToken((response as IAuthenticationRequest).token);
 
+      authenticationStore.setToken((response as IAuthenticationRequest).token);
       authenticationStore.setUser(response);
 
       snackbar.add({
         type: 'success',
         text:'You have now updated your profile.'
       });
+
+      // Close modal if successfull
+
+      const modal = getCurrentModal();
+      modal?.close();
 
       } else {
       snackbar.add({

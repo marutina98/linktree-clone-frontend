@@ -5,7 +5,8 @@ import { useCookies } from '@vueuse/integrations/useCookies';
 
 import type { Ref } from 'vue';
 import type { IUser } from '@/interfaces/user.interface.ts';
-import type { IAuthenticationStore } from '@/interfaces/authentication-store.interface.ts';
+
+// @todo: streamline this
 
 export const useAuthenticationStore = defineStore('token', () => {
 

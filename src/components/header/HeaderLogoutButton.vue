@@ -1,20 +1,30 @@
 <script setup lang="ts">
 
-  import type { IAuthenticationStore } from '@/interfaces/authentication-store.interface';
   import { inject } from 'vue';
+  import { useRouter } from 'vue-router';
   import { useSnackbar } from 'vue3-snackbar';
+
+
+  import type { IAuthenticationStore } from '@/interfaces/authentication-store.interface';
 
   const authenticationStore = inject('authentication') as IAuthenticationStore;
   const snackbar = useSnackbar();
 
-  // @todo: move to homepage
+  const router = useRouter();
 
   const logout = () => {
+    
     authenticationStore.deleteToken();
+
+    router.push({
+        path: '/'
+      });
+
     snackbar.add({
       type: 'success',
       text: 'You successfully logged out.',
     });
+
   }
 
 </script>

@@ -7,12 +7,9 @@
   import DashboardLinksEditor from './DashboardLinksEditor.vue';
   import DashboardProfileEditor from './DashboardProfileEditor.vue';
   
-  import type { Ref } from 'vue';
-  import type { IUser } from '@/interfaces/user.interface';
-  import type { IAuthenticationStore } from '@/interfaces/authentication-store.interface';
-  import { storeToRefs, type MutationType, type StateTree, type StoreGeneric } from 'pinia';
+  import { storeToRefs, type StoreGeneric } from 'pinia';
 
-  const authentication = inject('authentication') as StoreGeneric;
+  const authenticationStore = inject('authentication') as StoreGeneric;
 
   const tabs = [
     { name: 'Profile', component: DashboardProfileEditor },
@@ -21,7 +18,7 @@
 
   const currentTab = ref(0);
   
-  const { user } = storeToRefs(authentication);
+  const { user } = storeToRefs(authenticationStore);
 
   const getUser = computed(() => user.value);
 
@@ -55,11 +52,15 @@
 
   onBeforeMount(async () => {
 
-    const request = await apiService.getAuthenticatedUser();
+    if (!user.value) {
 
-    if (request.ok) {
-      const response = await request.json();
-      authentication.user.value = response;
+      const request = await apiService.getAuthenticatedUser();
+
+      if (request.ok) {
+        const response = await request.json();
+        authenticationStore.setUser(response);
+      }
+
     }
 
   });

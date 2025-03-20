@@ -99,11 +99,12 @@
     }
 
     const request = await apiService.signup(data);
-    const response = await request.json();
+    const response = await request.json() as IAuthenticationRequest;
     
     if (request.ok) {
 
-      authenticationStore.setToken((response as IAuthenticationRequest).token);
+      authenticationStore.setToken(response.token);
+      authenticationStore.setUser(response);
 
       snackbar.add({
         type: 'success',

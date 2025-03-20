@@ -81,6 +81,7 @@
     if (request.ok) {
 
       authenticationStore.setToken((response as IAuthenticationRequest).token);
+      authenticationStore.setUser(response);
 
       snackbar.add({
         type: 'success',
