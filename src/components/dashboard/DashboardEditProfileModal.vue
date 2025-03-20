@@ -52,6 +52,16 @@
   const inputName = ref(user.value.profile.name);
   const inputEmail = ref(user.value.email);
   const inputBiography = ref(user.value.profile.biography);
+  const inputPicture: Ref<string|null> = ref(null);
+
+  const inputPassword = ref('');
+  const inputConfirmPassword = ref('');
+
+  // If the checkbox is true
+  // the user has decided to change password
+
+  const checkPassword = ref(false);
+  const getCheckPassword = computed(() => checkPassword.value);
 
   // @todo: add picture
 
@@ -65,8 +75,6 @@
     const isEmailSame = inputEmail.value === user.value.email;
     const isBiographySame = inputBiography.value === user.value.profile.biography;
 
-    // @todo: add picture
-
     if (!isNameSame) data.push(['name', inputName.value]);
     if (!isEmailSame) data.push(['email', inputEmail.value]);
 
@@ -75,9 +83,14 @@
       data.push(['biography', biography]);
     }
 
-    if (data.length === 0) {
-      // @todo: add error, because profile cannot be edited
+    if (getCheckPassword) {
+      data.push(['password', inputPassword.value]);
     }
+
+    // If the user has uploaded a picture
+    // send it
+
+    if (inputPicture.value) data.push(['picture', inputPicture.value]);
 
     const request = await apiService.updateProfile(Object.fromEntries(data));
 
@@ -115,6 +128,8 @@
   const formInputEmail = useTemplateRef<HTMLInputElement>('email');
   const formInputBiography = useTemplateRef<HTMLInputElement>('biography');
   const submitBtn = useTemplateRef<HTMLButtonElement>('submitBtn');
+  const formInputPassword = useTemplateRef<HTMLInputElement>('password');
+  const formInputConfirmPassword = useTemplateRef<HTMLInputElement>('confirm-password');
 
   // @todo: add picture
 
@@ -139,6 +154,28 @@
     if (!emailValidityStatus) _errors.push('Email is not valid.');
     if (!biographyValidityStatus) _errors.push('Biography length must be between 0 and 255.');
 
+    const statuses = [emailValidityStatus, nameValidityStatus, biographyValidityStatus];
+
+    // If the user has decided to change password
+
+    if (getCheckPassword) {
+
+      console.log(formInputPassword, formInputConfirmPassword);
+
+      const passwordValidityStatus = helperService.isPasswordValid(inputPassword.value);
+      const confirmPasswordValidityStatus = helperService.isPasswordValid(inputConfirmPassword.value);
+      const passwordsAreEqual = inputPassword.value === inputConfirmPassword.value;
+
+      if (!confirmPasswordValidityStatus) _errors.push('Confirmation password must be at least 8 characters long.');
+      if (!passwordsAreEqual) _errors.push('Passwords must be equal.');
+
+      formInputPassword.value?.setAttribute('aria-invalid', JSON.stringify(!passwordValidityStatus));
+      formInputConfirmPassword.value?.setAttribute('aria-invalid', JSON.stringify(!confirmPasswordValidityStatus));
+
+      statuses.push(passwordValidityStatus, passwordsAreEqual)
+
+    }
+
     errors.value = _errors;
 
     // Set attribute aria-invalid if
@@ -149,15 +186,26 @@
     formInputBiography.value!.setAttribute('aria-invalid', JSON.stringify(!biographyValidityStatus));
 
     // Disabled the button if invalid
+    // if all statuses are invalid, the button is invalid
 
-    submitBtn.value!.disabled = !(emailValidityStatus && nameValidityStatus && biographyValidityStatus);
+    submitBtn.value!.disabled = !(statuses.every(e => e === true));
 
   });
+
+  // Picture
+  // Convert Image when uploaded
+
+  const onFileUpload = async (event: Event) => {
+    const input = event.target as HTMLInputElement;
+    const file = (input.files as FileList)[0] as File;
+    const base64 = await helperService.convertImageToBase64(file) as string;
+    inputPicture.value = base64;
+  }
 
 </script>
 
 <template>    
-  <form @submit.prevent="onSubmit">
+  <form ref="form" @submit.prevent="onSubmit">
 
     <fieldset>
       <label for="name">Name</label>
@@ -174,13 +222,33 @@
       <input ref="email" v-model="inputEmail" type="email" name="email" id="email">
     </fieldset>
 
-    <!-- @todo: add picture -->
+    <fieldset>
+      <label for="picture">Picture</label>
+      <input ref="picture" @change="onFileUpload" accept="image/*" type="file" name="picture" id="picture">
+    </fieldset>
+
+    <!-- @todo: add password -->
+
+    <fieldset class="checkbox">
+      <input ref="check-password" v-model="checkPassword" type="checkbox" name="check-password" id="check-password">
+      <label for="check-password">Change Password</label>
+    </fieldset>    
+
+    <fieldset :class="{ 'hidden': !getCheckPassword }">
+      <label for="password">Password</label>
+      <input ref="password" v-model="inputPassword" type="password" name="password" id="password" min="8" required>
+    </fieldset>
+
+    <fieldset :class="{ 'hidden': !getCheckPassword }">
+      <label for="confirm-password">Confirm Password</label>
+      <input ref="confirm-password" v-model="inputConfirmPassword" type="password" name="confirm-password" id="confirm-password" min="8" required>
+    </fieldset>
 
     <ul v-if="errors.length > 0" class="errors">
       <li class="error" v-for="error of errors">{{ error }}</li>
     </ul>
 
-    <button ref="submitBtn" type="submit">Login</button>
+    <button ref="submitBtn" type="submit">Edit Profile</button>
   </form>
 </template>
 
@@ -188,16 +256,20 @@
 
   @reference 'tailwindcss';
 
-  .modal {
-
-  }
-
   form {
     @apply bg-white flex flex-col gap-6 p-8 rounded-lg shadow-gray-100 shadow-md;
   }
 
   form fieldset {
-    @apply flex flex-col;
+    @apply flex;
+  }
+
+  form fieldset:not(.checkbox) {
+    @apply flex-col;
+  }
+
+  form fieldset.checkbox {
+    @apply flex flex-row gap-2 items-center;
   }
 
   form label {
@@ -234,6 +306,10 @@
 
   .error {
     @apply text-sm;
+  }
+
+  .hidden {
+    @apply hidden;
   }
 
 </style>

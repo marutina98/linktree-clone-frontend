@@ -22,7 +22,7 @@ const routes = [
     component: Login,
     beforeEnter: (to: RouteLocationNormalized, from: RouteLocationNormalized) => {
       const store = useAuthenticationStore();
-      isGuestGuard(store, to, from);
+      return isGuestGuard(store, to, from);
     }
   },
 
@@ -31,7 +31,7 @@ const routes = [
     component: Signup,
     beforeEnter: (to: RouteLocationNormalized, from: RouteLocationNormalized) => {
       const store = useAuthenticationStore();
-      isGuestGuard(store, to, from);
+      return isGuestGuard(store, to, from);
     }
   },
 
@@ -40,7 +40,7 @@ const routes = [
     component: Dashboard,
     beforeEnter: (to: RouteLocationNormalized, from: RouteLocationNormalized) => {
       const store = useAuthenticationStore();
-      isAuthenticatedGuard(store, to, from);
+      return isAuthenticatedGuard(store, to, from);
     }
   }
 
