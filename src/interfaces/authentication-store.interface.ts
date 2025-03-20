@@ -1,4 +1,5 @@
 import type { Ref } from "vue"
+import type { IUser } from "./user.interface.ts"
 
 interface IAuthenticationStore {
   isLogged: Ref<boolean>|boolean,
@@ -6,6 +7,9 @@ interface IAuthenticationStore {
   setToken: Function,
   deleteToken: Function,
   checkIfAuthenticated: Function,
+  user: Ref<IUser|null>,
+  $subscribe: Function,
+  setUser: Function,
 }
 
 export type { IAuthenticationStore }

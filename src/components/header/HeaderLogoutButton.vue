@@ -7,6 +7,8 @@
   const authenticationStore = inject('authentication') as IAuthenticationStore;
   const snackbar = useSnackbar();
 
+  // @todo: move to homepage
+
   const logout = () => {
     authenticationStore.deleteToken();
     snackbar.add({

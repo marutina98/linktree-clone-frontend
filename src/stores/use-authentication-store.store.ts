@@ -2,12 +2,16 @@ import { ref } from 'vue';
 
 import { defineStore } from 'pinia';
 import { useCookies } from '@vueuse/integrations/useCookies';
+
+import type { Ref } from 'vue';
+import type { IUser } from '@/interfaces/user.interface.ts';
 import type { IAuthenticationStore } from '@/interfaces/authentication-store.interface.ts';
 
 export const useAuthenticationStore = defineStore('token', () => {
 
   const cookie = useCookies(['token']);
   const isLogged = ref(false);
+  const user: Ref<IUser|null> = ref(null);
 
   const getToken = () => cookie.get('token');
 
@@ -26,13 +30,19 @@ export const useAuthenticationStore = defineStore('token', () => {
     isLogged.value = tokenCookie ? true : false;
   }
 
+  const setUser = (_user: IUser|null) => {
+    user.value = _user;
+  }
+
   return {
+    user,
     isLogged,
     cookie,
     getToken,
     setToken,
     deleteToken,
     checkIfAuthenticated,
+    setUser,
   }
 
 });

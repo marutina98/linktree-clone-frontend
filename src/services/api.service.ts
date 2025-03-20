@@ -51,7 +51,7 @@ class ApiService {
   async updateProfile(data: IProfileEditData) {
 
     const api = this.baseURL + 'users';
-    const method = 'GET';
+    const method = 'PUT';
 
     return await fetch(api, {
       mode: 'cors',

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-  import { ref, computed, onBeforeMount } from 'vue';
+  import { ref, inject, computed, onBeforeMount } from 'vue';
 
   import { apiService } from '@/services/api.service';
 
@@ -9,6 +9,10 @@
   
   import type { Ref } from 'vue';
   import type { IUser } from '@/interfaces/user.interface';
+  import type { IAuthenticationStore } from '@/interfaces/authentication-store.interface';
+  import { storeToRefs, type MutationType, type StateTree, type StoreGeneric } from 'pinia';
+
+  const authentication = inject('authentication') as StoreGeneric;
 
   const tabs = [
     { name: 'Profile', component: DashboardProfileEditor },
@@ -16,7 +20,8 @@
   ];
 
   const currentTab = ref(0);
-  const user: Ref<IUser|null> = ref(null);
+  
+  const { user } = storeToRefs(authentication);
 
   const getUser = computed(() => user.value);
 
@@ -54,7 +59,7 @@
 
     if (request.ok) {
       const response = await request.json();
-      user.value = response;
+      authentication.user.value = response;
     }
 
   });

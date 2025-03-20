@@ -2,12 +2,13 @@
 
   import { computed, inject, ref, useTemplateRef } from 'vue';
   import { useSnackbar } from 'vue3-snackbar';
+  import { useEventListener } from '@vueuse/core';
 
   // Interfaces and Types
 
   import type { Ref } from 'vue';
   import type { IAuthenticationStore } from '@/interfaces/authentication-store.interface';
-  import { useEventListener } from '@vueuse/core';
+  import type { IAuthenticationRequest } from '@/interfaces/authentication-request.interface';
 
   // Services
 
@@ -15,7 +16,7 @@
   import { helperService } from '@/services/helper.service';
 
   const snackbar = useSnackbar();
-  const authenticationStore = inject('authentication') as IAuthenticationStore
+  const authenticationStore = inject('authentication') as IAuthenticationStore;
 
   // Props
 
@@ -54,7 +55,7 @@
 
   // Form onSubmit
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
 
     const data: [string, string][] = [];
 
@@ -76,7 +77,27 @@
       // @todo: add error, because profile cannot be edited
     }
 
-    console.log(Object.fromEntries(data));
+    const request = await apiService.updateProfile(Object.fromEntries(data));
+
+    if (request.ok) {
+      
+      const response = await request.json();
+      authenticationStore.setToken((response as IAuthenticationRequest).token);
+
+      authenticationStore.setUser(response);
+
+      snackbar.add({
+        type: 'success',
+        text:'You have now updated your profile.'
+      });
+
+      } else {
+      snackbar.add({
+        type: 'error',
+        text: 'Could not updated your profile. Try again.',
+      });
+
+    }
 
   }
 
