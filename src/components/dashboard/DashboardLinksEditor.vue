@@ -45,11 +45,10 @@
     return Math.max(...links.map(link => link.order));
   }
 
+  // @todo: moveLinkDown and moveLinkUp
+  // need to be streamlined
+
   const moveLinkDown = async (id: number) => {
-    
-    snackbar.add({
-      message: 'Moving Link with id ${id} down.',
-    });
 
     const request = await apiService.moveLinkDown(id);
 
@@ -57,39 +56,69 @@
 
       const updateStatus = await updateUser();
 
-      // @todo: if updateStatus true then success
-      // otherwise error
+      // Snackbar Text and Type
+      // change if the update status is true or false
 
-      // @todo: show snackbar
+      if (updateStatus) {
+
+        snackbar.add({
+          text: 'Link order was updated.',
+          type: 'success'
+        });
+
+      } else {
+
+        snackbar.add({
+          text: 'Link order could not be updated.',
+          type: 'error'
+        });
+
+      }
 
     } else {
 
-      // @todo: error
+      snackbar.add({
+        text: 'Link order could not be updated.',
+        type: 'error'
+      });
 
     }
 
   }
 
   const moveLinkUp = async (id: number) => {
-    
-    snackbar.add({
-      message: 'Moving Link with id ${id} up.',
-    });
 
     const request = await apiService.moveLinkUp(id);
 
     if (request.ok) {
 
-      const updateStatus = await updateUser();
+    const updateStatus = await updateUser();
 
-      // @todo: if updateStatus true then success
-      // otherwise error
+      // Snackbar Text and Type
+      // change if the update status is true or false
 
-    // @todo: show snackbar
+      if (updateStatus) {
 
-    } else {
+        snackbar.add({
+          text: 'Link order was updated.',
+          type: 'success'
+        });
 
-    // @todo: error
+      } else {
+
+        snackbar.add({
+          text: 'Link order could not be updated.',
+          type: 'error'
+        });
+
+      }
+
+      } else {
+
+      snackbar.add({
+        text: 'Link order could not be updated.',
+        type: 'error'
+      });
 
     }
 
@@ -135,8 +164,10 @@
 
           <li class="editor-link" v-for="link of user.links">
 
-            <span v-if="link.icon.length > 0" class="editor-link-icon">
-              {{ getIconChar(link.icon) }}
+            <span class="editor-link-icon">
+              <template v-if="link.icon.length > 0">
+                {{ getIconChar(link.icon) }}
+              </template>
             </span>
             
             <a :href="link.url" class="editor-link-icon-anchor">
@@ -187,7 +218,7 @@
   }
 
   .editor {
-
+    @apply p-2;
   }
 
   .editor-links {
