@@ -1,11 +1,16 @@
 <script setup lang="ts">
 
-  import { computed } from 'vue';
+  import { computed, inject } from 'vue';
+  import { useSnackbar } from 'vue3-snackbar';
+  import { apiService } from '@/services/api.service';
 
   import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/solid';
 
+  import type { StoreGeneric } from 'pinia';
   import type { IUser } from '@/interfaces/user.interface';
   import type { ILink } from '@/interfaces/link.interface';
+
+  const authenticatedStore = inject('authentication') as StoreGeneric;
 
   const props = defineProps({
     user: {
@@ -14,7 +19,21 @@
     }
   });
 
-  const user = computed(() => props.user as IUser);
+  const user = computed(() => {
+
+    const _user = props.user;
+
+    if (_user) {
+      _user.links = sortLinks(_user.links);
+    }
+    
+    return _user;
+
+  });
+
+  // The Links must be arranged by their order.
+
+  const snackbar = useSnackbar();
 
   // To move into helpers.service.ts
 
@@ -26,12 +45,81 @@
     return Math.max(...links.map(link => link.order));
   }
 
-  const moveLinkDown = (id: number) => {
-    console.log('Move Link Down');
+  const moveLinkDown = async (id: number) => {
+    
+    snackbar.add({
+      message: 'Moving Link with id ${id} down.',
+    });
+
+    const request = await apiService.moveLinkDown(id);
+
+    if (request.ok) {
+
+      const updateStatus = await updateUser();
+
+      // @todo: if updateStatus true then success
+      // otherwise error
+
+      // @todo: show snackbar
+
+    } else {
+
+      // @todo: error
+
+    }
+
   }
 
-  const moveLinkUp = (id: number) => {
-    console.log('Move Link Up');
+  const moveLinkUp = async (id: number) => {
+    
+    snackbar.add({
+      message: 'Moving Link with id ${id} up.',
+    });
+
+    const request = await apiService.moveLinkUp(id);
+
+    if (request.ok) {
+
+      const updateStatus = await updateUser();
+
+      // @todo: if updateStatus true then success
+      // otherwise error
+
+    // @todo: show snackbar
+
+    } else {
+
+    // @todo: error
+
+    }
+
+  }
+
+  const updateUser = async () => {
+
+    const request = await apiService.getAuthenticatedUser();
+
+    if (request.ok) {
+      const response = await request.json();
+      authenticatedStore.setUser(response);
+
+      console.log(authenticatedStore.user);
+
+      return true;
+    }
+
+    return false;
+
+  }
+  
+  // Sort Links By their Order
+
+  const sortLinks = (links: ILink[]) => {
+
+    return links.sort((a: ILink, b: ILink) => {
+      return a.order - b.order;
+    });
+
   }
 
 </script>
@@ -41,7 +129,7 @@
 
     <div class="editor">
   
-      <template v-if="user.links.length > 0">
+      <template v-if="user && user.links.length > 0">
 
         <ul class="editor-links">
 

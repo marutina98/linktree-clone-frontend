@@ -62,6 +62,32 @@ class ApiService {
 
   }
 
+  async moveLinkUp(id: number) {
+
+    const api = this.baseURL + `links/${id}/move-up`;
+    const method = 'PUT';
+
+    return await fetch(api, {
+      mode: 'cors',
+      method: method,
+      headers: this.getHeaders(method)
+    });
+
+  }
+
+  async moveLinkDown(id: number) {
+
+    const api = this.baseURL + `links/${id}/move-down`;
+    const method = 'PUT';
+
+    return await fetch(api, {
+      mode: 'cors',
+      method: method,
+      headers: this.getHeaders(method)
+    });
+
+  }
+
   getHeaders (method: string) {
 
     const headers = [
