@@ -226,7 +226,23 @@
   }
 
   .editor-link {
-    @apply flex bg-amber-100 justify-between p-2;
+    @apply flex justify-between p-2;
+  }
+
+  .editor-link:nth-child(even) {
+    @apply  bg-amber-100;
+  }
+
+  .editor-link:nth-child(even):hover {
+    @apply  bg-amber-200;
+  }
+
+  .editor-link:nth-child(odd) {
+    @apply bg-lime-100;
+  }
+
+  .editor-link:nth-child(odd):hover {
+    @apply  bg-lime-200;
   }
 
   .editor-link-position {
