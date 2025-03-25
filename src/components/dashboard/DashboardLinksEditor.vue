@@ -3,12 +3,15 @@
   import { computed, inject } from 'vue';
   import { useSnackbar } from 'vue3-snackbar';
   import { apiService } from '@/services/api.service';
+  import { openModal } from 'jenesius-vue-modal';
 
-  import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/solid';
+  import { ChevronDownIcon, ChevronUpIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/outline';
 
   import type { StoreGeneric } from 'pinia';
-  import type { IUser } from '@/interfaces/user.interface';
   import type { ILink } from '@/interfaces/link.interface';
+  import type { ILinkRequest } from '@/interfaces/link-request.interface';
+
+  import DashboardDeleteLinkModal from './DashboardDeleteLinkModal.vue';
 
   const authenticatedStore = inject('authentication') as StoreGeneric;
 
@@ -131,9 +134,6 @@
     if (request.ok) {
       const response = await request.json();
       authenticatedStore.setUser(response);
-
-      console.log(authenticatedStore.user);
-
       return true;
     }
 
@@ -148,6 +148,16 @@
     return links.sort((a: ILink, b: ILink) => {
       return a.order - b.order;
     });
+
+  }
+
+  // Edit/Delete Link Modals
+
+  const openDeleteModal = (id: number) => {
+    openModal(DashboardDeleteLinkModal, { id });
+  }
+
+  const openEditModal = (data: ILinkRequest) => {
 
   }
 
@@ -178,7 +188,11 @@
                 {{ link.name }}
               </a>
 
-              <div class="editor-link-position">
+              <div class="editor-link-buttons">
+
+                <button @click="openDeleteModal(link.id)" class="delete-btn">
+                  <TrashIcon class="delete-btn-icon size-6" />
+                </button>
 
                 <template v-if="link.order > 1">
                   <button @click="moveLinkUp(link.id)" class="position-btn move-up">
@@ -270,19 +284,22 @@
     @apply border-r border-dashed border-gray-200;
   }
 
-  .editor-link-position {
+  .editor-link-buttons {
     @apply flex flex-row gap-1 ml-1;
   }
 
-  .position-btn {
+  .position-btn,
+  .delete-btn {
     @apply cursor-pointer;
   }
 
-  .position-btn-icon {
+  .position-btn-icon,
+  .delete-btn-icon {
     @apply aspect-square bg-white font-bold p-1 rounded-full;
   }
 
-  .position-btn:hover .position-btn-icon {
+  .position-btn:hover .position-btn-icon,
+  .delete-btn:hover .delete-btn-icon {
     @apply bg-gray-200;
   }
 

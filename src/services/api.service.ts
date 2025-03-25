@@ -48,6 +48,8 @@ class ApiService {
 
   }
 
+  // Profile
+
   async updateProfile(data: IProfileEditData) {
 
     const api = this.baseURL + 'users';
@@ -57,6 +59,21 @@ class ApiService {
       mode: 'cors',
       method: method,
       body: JSON.stringify(data),
+      headers: this.getHeaders(method)
+    });
+
+  }
+
+  // Link
+
+  async deleteLink(id: number) {
+
+    const api = this.baseURL + `links/${id}`;
+    const method = 'DELETE';
+
+    return await fetch(api, {
+      mode: 'cors',
+      method: method,
       headers: this.getHeaders(method)
     });
 
