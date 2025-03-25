@@ -68,13 +68,67 @@
     }
 
   }
+  
+  const deny = () => {
+    modal?.close();
+  }
+
+  const confirm = async (id: number) => {
+    await deleteLink(id);
+  }
 
 </script>
 
 <template>
-  Delete Link {{ id }}
+  <div class="modal">
+
+    <div class="modal-text">
+      Are you sure you want to delete this element ?
+    </div>
+
+    <div class="modal-buttons">
+      <button @click="deny" class="deny-btn">No</button>
+      <button @click="confirm(id)" class="confirm-btn">Yes</button>
+    </div>
+
+  </div>
 </template>
 
 <style scoped>
+
+  @reference 'tailwindcss';
+
+  .modal {
+    @apply bg-white flex flex-col drop-shadow-md gap-2 p-2 rounded-sm;
+  }
+
+  .modal-text {
+
+  }
+
+  .modal-buttons {
+    @apply gap-2 grid grid-cols-2;
+  }
+
+  .deny-btn,
+  .confirm-btn {
+    @apply border-2 cursor-pointer py-2 px-4 text-sm uppercase;
+  }
+
+  .deny-btn {
+    @apply border-red-400 text-red-600;
+  }
+
+  .deny-btn:hover {
+    @apply bg-red-400 text-white;
+  }
+
+  .confirm-btn {
+    @apply border-emerald-400 text-emerald-600;
+  }
+
+  .confirm-btn:hover {
+    @apply bg-emerald-400 text-white;
+  }
 
 </style>
