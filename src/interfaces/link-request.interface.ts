@@ -1,5 +1,5 @@
 interface ILinkRequest {
-  id: number,
+  id?: number,
   url: string,
   name: string,
   icon: string,

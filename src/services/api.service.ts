@@ -67,6 +67,26 @@ class ApiService {
 
   // Link
 
+  async createLink(data: ILinkRequest) {
+
+    const api = this.baseURL + 'links';
+    const method = 'POST';
+
+    const body = {
+      icon: data.icon,
+      name: data.name,
+      url: data.url,
+    }
+
+    return await fetch(api, {
+      mode: 'cors',
+      method: method,
+      headers: this.getHeaders(method),
+      body: JSON.stringify(body),
+    });
+
+  }
+
   async deleteLink(id: number) {
 
     const api = this.baseURL + `links/${id}`;

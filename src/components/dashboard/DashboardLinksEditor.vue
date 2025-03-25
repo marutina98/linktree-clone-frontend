@@ -13,6 +13,7 @@
 
   import DashboardEditLinkModal from './DashboardEditLinkModal.vue';
   import DashboardDeleteLinkModal from './DashboardDeleteLinkModal.vue';
+  import DashboardAddLinkModal from './DashboardAddLinkModal.vue';
 
   const authenticatedStore = inject('authentication') as StoreGeneric;
 
@@ -152,7 +153,11 @@
 
   }
 
-  // Edit/Delete Link Modals
+  // Edit/Delete/Create Link Modals
+
+  const openCreateModal = () => {
+    openModal(DashboardAddLinkModal);
+  }
 
   const openDeleteModal = (id: number) => {
     openModal(DashboardDeleteLinkModal, { id });
@@ -172,7 +177,7 @@
       <h1 class="editor-header">Editor</h1>
 
       <div class="editor-functions">
-        <button class="add-btn">Add Link</button>
+        <button @click="openCreateModal" class="add-btn">Add Link</button>
       </div>
 
       <div class="editor-content">
