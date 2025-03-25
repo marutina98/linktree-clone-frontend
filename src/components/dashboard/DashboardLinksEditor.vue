@@ -171,6 +171,10 @@
 
       <h1 class="editor-header">Editor</h1>
 
+      <div class="editor-functions">
+        <button class="add-btn">Add Link</button>
+      </div>
+
       <div class="editor-content">
   
         <template v-if="user!.links.length > 0">
@@ -293,6 +297,19 @@
     @apply flex flex-row gap-1 ml-1;
   }
 
+  .editor-functions {
+    @apply mt-4 px-4;
+  }
+
+  .add-btn {
+    @apply border-2 border-amber-400 py-2 px-4 text-amber-600 text-sm uppercase;
+  }
+
+  .add-btn:hover {
+    @apply bg-amber-400 text-white;
+  }
+
+  .add-btn,
   .position-btn,
   .delete-btn,
   .edit-btn {
