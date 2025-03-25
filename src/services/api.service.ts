@@ -1,5 +1,6 @@
 import type { IAuthenticationLoginData } from '@/interfaces/authentication-login-data.interface.ts';
 import type { IAuthenticationSignupData } from '@/interfaces/authentication-signup-data.interface.ts';
+import type { ILinkRequest } from '@/interfaces/link-request.interface.ts';
 import type { IProfileEditData } from '@/interfaces/profile-edit-data.interface.ts';
 import { useAuthenticationStore } from '@/stores/use-authentication-store.store.ts';
 
@@ -75,6 +76,26 @@ class ApiService {
       mode: 'cors',
       method: method,
       headers: this.getHeaders(method)
+    });
+
+  }
+
+  async editLink(data: ILinkRequest) {
+
+    const api = this.baseURL + `links/${data.id}`;
+    const method = 'PUT';
+
+    const body = {
+      icon: data.icon,
+      name: data.name,
+      url: data.url,
+    }
+
+    return await fetch(api, {
+      mode: 'cors',
+      method: method,
+      headers: this.getHeaders(method),
+      body: JSON.stringify(body),
     });
 
   }

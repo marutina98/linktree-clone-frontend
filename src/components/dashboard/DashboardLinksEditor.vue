@@ -11,6 +11,7 @@
   import type { ILink } from '@/interfaces/link.interface';
   import type { ILinkRequest } from '@/interfaces/link-request.interface';
 
+  import DashboardEditLinkModal from './DashboardEditLinkModal.vue';
   import DashboardDeleteLinkModal from './DashboardDeleteLinkModal.vue';
 
   const authenticatedStore = inject('authentication') as StoreGeneric;
@@ -158,7 +159,7 @@
   }
 
   const openEditModal = (data: ILinkRequest) => {
-
+    openModal(DashboardEditLinkModal, { data });
   }
 
 </script>
@@ -192,6 +193,10 @@
 
                 <button @click="openDeleteModal(link.id)" class="delete-btn">
                   <TrashIcon class="delete-btn-icon size-6" />
+                </button>
+
+                <button @click="openEditModal(link as ILinkRequest)" class="edit-btn">
+                  <PencilIcon class="edit-btn-icon size-6" />
                 </button>
 
                 <template v-if="link.order > 1">
@@ -289,17 +294,20 @@
   }
 
   .position-btn,
-  .delete-btn {
+  .delete-btn,
+  .edit-btn {
     @apply cursor-pointer;
   }
 
   .position-btn-icon,
-  .delete-btn-icon {
+  .delete-btn-icon,
+  .edit-btn-icon {
     @apply aspect-square bg-white font-bold p-1 rounded-full;
   }
 
   .position-btn:hover .position-btn-icon,
-  .delete-btn:hover .delete-btn-icon {
+  .delete-btn:hover .delete-btn-icon,
+  .edit-btn:hover .edit-btn-icon {
     @apply bg-gray-200;
   }
 
