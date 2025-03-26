@@ -1,8 +1,16 @@
 <script setup lang="ts">
 
-  import { inject, useTemplateRef } from 'vue';
+  import { computed, inject, ref, useTemplateRef, type Ref } from 'vue';
+
   import { useSnackbar } from 'vue3-snackbar';
   import { getCurrentModal } from 'jenesius-vue-modal';
+
+  // Emoji Picker
+
+  import 'vue3-emoji-picker/css'
+  import EmojiPicker from 'vue3-emoji-picker';
+
+  // Service
 
   import { apiService } from '@/services/api.service';
 
@@ -10,6 +18,7 @@
 
   import type { StoreGeneric } from 'pinia';
   import type { ILinkRequest } from '@/interfaces/link-request.interface';
+  import type { IEmoji } from '@/interfaces/emoji.interface';
 
   const props = defineProps({
 
@@ -66,16 +75,38 @@
   // Form
 
   const formRef = useTemplateRef('form');
+  const inputIconRef = useTemplateRef('input-icon-ref');
   const submitBtnRef = useTemplateRef('submit-btn');
+
+  const defaultEmoji: IEmoji = {
+    "u": "1f517",
+    "r": "1f517",
+    "t": "neutral",
+    "i": "🔗"
+  };
+
+  const selectedEmoji: Ref<IEmoji> = ref(defaultEmoji);
+  const getEmoji = computed(() => selectedEmoji.value.i);
 
   const onSubmit = () => {
     console.log('Submit');
+  }
+
+  const onSelectEmoji = (emoji: IEmoji) => {
+    selectedEmoji.value = emoji;
   }
 
 </script>
 
 <template>
   <form ref="form" @submit.prevent="onSubmit">
+
+    <fieldset>
+      <label for="icon">Icon</label>
+      <input ref="input-icon-ref" id="icon" name="icon" type="text" :value="getEmoji" max="1">
+      <EmojiPicker native="true" @select="onSelectEmoji" />
+    </fieldset>
+
     <button ref="submit-btn" type="submit">Submit</button>
   </form>
 </template>
