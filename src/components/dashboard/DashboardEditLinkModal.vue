@@ -58,7 +58,7 @@
 
       snackbar.add({
         type: 'success',
-        text: `Link with id ${id} was updated.`,
+        text: `Link with id ${data.id} was updated.`,
       });
       
       if (userRequest.ok) {
@@ -74,7 +74,7 @@
 
       snackbar.add({
         type: 'error',
-        text: `Link with id ${id} could not be updated.`,
+        text: `Link with id ${data.id} could not be updated.`,
       });
 
     }
