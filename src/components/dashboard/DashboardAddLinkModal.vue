@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-  import { computed, inject, ref, useTemplateRef, type Ref } from 'vue';
+  import { computed, inject, onMounted, ref, useTemplateRef, type Ref } from 'vue';
   import { useEventListener } from '@vueuse/core';
 
   import { useSnackbar } from 'vue3-snackbar';
@@ -14,6 +14,7 @@
   // Service
 
   import { apiService } from '@/services/api.service';
+  import { helperService } from '@/services/helper.service';
 
   // Interfaces & Types
 
@@ -81,8 +82,8 @@
   const inputName = ref('');
 
   const formRef = useTemplateRef('form');
+  const inputUrlRef = useTemplateRef('input-url-ref');
   const inputNameRef = useTemplateRef('input-name-ref');
-  const inputIconRef = useTemplateRef('input-icon-ref');
   const submitBtnRef = useTemplateRef('submit-btn');
 
   const defaultEmoji: IEmoji = {
@@ -95,58 +96,57 @@
   const selectedEmoji: Ref<IEmoji> = ref(defaultEmoji);
   const getEmoji = computed(() => selectedEmoji.value.i);
 
-  const onSubmit = () => {
-    console.log('Submit');
+  const onSubmit = async () => {
+   
+    const data = {
+      icon: selectedEmoji.value.u,
+      name: helperService.sanitizeText(inputName.value),
+      url: inputUrl.value
+    }
+
+    await createLink(data);
+
   }
 
   const onSelectEmoji = (emoji: IEmoji) => {
     selectedEmoji.value = emoji;
   }
 
-  useEventListener(formRef, 'input', (_: Event) => {
+  useEventListener(formRef, 'input', (_: Event) => checkStatus());
+
+  const checkStatus = () => {
 
     const _errors: string[] = [];
 
-    // @todo: validity
-    // @todo: add errors to _errors
+    const urlValidityStatus = helperService.isURLValid(inputUrl.value);
+    const nameValidityStatus = helperService.isValidText(inputName.value);
+
+    if (!urlValidityStatus) _errors.push('The URL is not valid.');
+    if (!nameValidityStatus) _errors.push('The Text is not valid. Max Length 255 characters, Min is 3.');
 
     errors.value = _errors;
 
-    // @todo: input attribute
+    inputUrlRef.value!.setAttribute('aria-invalid', JSON.stringify(!urlValidityStatus));
+    inputNameRef.value!.setAttribute('aria-invalid', JSON.stringify(!nameValidityStatus));
 
-    const validityStatuses: boolean[] = [];
+    submitBtnRef.value!.disabled = !(urlValidityStatus && nameValidityStatus);
 
-    submitBtnRef.value!.disabled = !(validityStatuses.every(b => b === true));
+  }
 
-    /*
+  // Check Status of Form after component
+  // is mounted
 
-    const emailValidityStatus = helperService.isEmailValid(inputEmail.value);
-    const passwordValidityStatus = helperService.isPasswordValid(inputPassword.value);
-
-    // Add errors to _errors
-    // make errors.value equal to _errors
-
-    if (!emailValidityStatus) _errors.push('Email is not valid.');
-    if (!passwordValidityStatus) _errors.push('Password must be at least 8 characters long.');
-
-    // Set attribute aria-invalid if
-    // email and/or password are invalid
-
-    formInputEmail.value!.setAttribute('aria-invalid', JSON.stringify(!emailValidityStatus));
-    formInputPassword.value!.setAttribute('aria-invalid', JSON.stringify(!passwordValidityStatus));
-
-    */
-
-  });
+  onMounted(() => checkStatus());
 
 </script>
 
 <template>
+
   <form ref="form" @submit.prevent="onSubmit">
 
     <fieldset>
       <label for="name">Text</label>
-      <input ref="input-name-ref" v-model="inputName" id="name" name="name" type="text" required>
+      <input ref="input-name-ref" v-model="inputName" id="name" name="name" type="text" min="3" max="255" required>
     </fieldset>
 
     <fieldset>
@@ -157,7 +157,7 @@
     <fieldset>
       <label for="icon">Icon</label>
       <input ref="input-icon-ref" id="icon" name="icon" type="text" :value="getEmoji" max="1" required readonly>
-      <EmojiPicker class="emoji-picker" native="true" @select="onSelectEmoji" />
+      <EmojiPicker class="emoji-picker" :native="true" @select="onSelectEmoji" />
     </fieldset>
 
     <ul v-if="errors.length > 0" class="errors">
@@ -167,6 +167,7 @@
     <button ref="submit-btn" type="submit">Submit</button>
 
   </form>
+
 </template>
 
 <style scoped>

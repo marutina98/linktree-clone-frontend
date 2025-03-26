@@ -1,7 +1,12 @@
-import { isEmail, isLength, escape } from 'validator';
+import type { IEmoji } from '@/interfaces/emoji.interface.ts';
+import { isURL, isEmail, isLength, escape } from 'validator';
 
 class HelperService {
   
+  public isURLValid(url: string) {
+    return isURL(url);
+  }
+
   public isEmailValid(email: string) {
     return isEmail(email);
   }
@@ -15,11 +20,21 @@ class HelperService {
     return regex.test(str);
   }
 
+  // @todo: sanitizeBiography and Text should be replaced
+
   public isValidBiography(str: string) {
     return isLength(str, { min: 0, max: 255 });
   }
 
+  public isValidText(str: string) {
+    return isLength(str, { min: 3, max: 255 });
+  }
+
   public sanitizeBiography(str: string) {
+    return escape(str);
+  }
+
+  public sanitizeText(str: string) {
     return escape(str);
   }
 
@@ -32,6 +47,21 @@ class HelperService {
       reader.onload = () => resolve(reader.result);
       reader.onerror = (error) => reject(error);
     });
+  }
+
+  // Generate Emoji from Database
+
+  public generateEmojiObject(unicode: string): IEmoji {
+  
+    const emoji = String.fromCodePoint(parseInt(unicode, 16));
+  
+    return {
+      i: emoji,
+      r: unicode,
+      t: 'neutral',
+      u: unicode,
+    };
+
   }
 
 }
