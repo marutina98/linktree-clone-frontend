@@ -244,8 +244,10 @@
 
       <div class="preview-content">
       
-        <div class="preview-picture">
-          <div :style="{ backgroundImage: `url(${user!.profile.picture})` }"></div>
+        <div class="preview-info">
+          <div class="preview-picture" :style="{ backgroundImage: `url(${user!.profile.picture})` }"></div>
+          <span class="preview-name">{{ user!.profile.name }}</span>
+          <p class="preview-biography">{{ user!.profile.biography }}</p>
         </div>
 
         <template v-if="user!.links.length > 0">
@@ -260,9 +262,11 @@
                 </template>
               </span>
               
-              <a :href="link.url" class="preview-link-anchor">
-                {{ link.name }}
-              </a>
+              <span class="preview-link-text">
+                <a :href="link.url" class="preview-link-anchor">
+                  {{ link.name }}
+                </a>
+              </span>
 
             </li>
 
@@ -296,6 +300,10 @@
 
   .editor {
     @apply border-r border-dashed border-gray-200;
+  }
+
+  .editor-link {
+    @apply flex justify-between p-2;
   }
 
   .editor-link-buttons {
@@ -335,14 +343,35 @@
 
   /* PREVIEW */
 
-  .preview-picture {
-    @apply flex items-center justify-center;
+  .preview-info {
+    @apply flex flex-col gap-2 items-center justify-center;
   }
 
-  .preview-picture div {
+  .preview-name {
+    @apply text-2xl;
+  }
+
+  .preview-biography {
+    @apply text-sm;
+  }
+
+  .preview-picture {
     @apply border-8 border-white h-42 ring-2 ring-gray-100 rounded-full w-42;
     background-position: center;
     background-size: cover;
+  }
+
+  .preview-link {
+    @apply flex p-2;
+  }
+
+  .preview-link-icon {
+    @apply max-w-5;
+  }
+
+  .preview-link-text {
+    @apply text-center;
+    width: calc(100% - (var(--spacing) * 5));
   }
 
   /* EDITOR & PREVIEW */
@@ -360,11 +389,6 @@
   .editor-links,
   .preview-links {
     @apply flex flex-col gap-2;
-  }
-
-  .editor-link,
-  .preview-link {
-    @apply flex justify-between p-2;
   }
 
   .editor-link:nth-child(odd),
