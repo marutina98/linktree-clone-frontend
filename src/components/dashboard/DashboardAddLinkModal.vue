@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
   import { computed, inject, ref, useTemplateRef, type Ref } from 'vue';
+  import { useEventListener } from '@vueuse/core';
 
   import { useSnackbar } from 'vue3-snackbar';
   import { getCurrentModal } from 'jenesius-vue-modal';
@@ -74,6 +75,9 @@
 
   // Form
 
+  const errors: Ref<string[]> = ref([]);
+
+  const inputUrl = ref('');
   const inputName = ref('');
 
   const formRef = useTemplateRef('form');
@@ -99,6 +103,42 @@
     selectedEmoji.value = emoji;
   }
 
+  useEventListener(formRef, 'input', (_: Event) => {
+
+    const _errors: string[] = [];
+
+    // @todo: validity
+    // @todo: add errors to _errors
+
+    errors.value = _errors;
+
+    // @todo: input attribute
+
+    const validityStatuses: boolean[] = [];
+
+    submitBtnRef.value!.disabled = !(validityStatuses.every(b => b === true));
+
+    /*
+
+    const emailValidityStatus = helperService.isEmailValid(inputEmail.value);
+    const passwordValidityStatus = helperService.isPasswordValid(inputPassword.value);
+
+    // Add errors to _errors
+    // make errors.value equal to _errors
+
+    if (!emailValidityStatus) _errors.push('Email is not valid.');
+    if (!passwordValidityStatus) _errors.push('Password must be at least 8 characters long.');
+
+    // Set attribute aria-invalid if
+    // email and/or password are invalid
+
+    formInputEmail.value!.setAttribute('aria-invalid', JSON.stringify(!emailValidityStatus));
+    formInputPassword.value!.setAttribute('aria-invalid', JSON.stringify(!passwordValidityStatus));
+
+    */
+
+  });
+
 </script>
 
 <template>
@@ -106,21 +146,26 @@
 
     <fieldset>
       <label for="name">Text</label>
-      <input ref="input-name-ref" id="name" name="name" type="text" required>
+      <input ref="input-name-ref" v-model="inputName" id="name" name="name" type="text" required>
     </fieldset>
 
     <fieldset>
       <label for="url">Link</label>
-      <input ref="input-url-ref" name="url" type="text" id="url" required>
+      <input ref="input-url-ref" v-model="inputUrl" name="url" type="text" id="url" required>
     </fieldset>
 
     <fieldset>
       <label for="icon">Icon</label>
-      <input ref="input-icon-ref" id="icon" name="icon" type="text" :value="getEmoji" max="1" required>
+      <input ref="input-icon-ref" id="icon" name="icon" type="text" :value="getEmoji" max="1" required readonly>
       <EmojiPicker class="emoji-picker" native="true" @select="onSelectEmoji" />
     </fieldset>
 
+    <ul v-if="errors.length > 0" class="errors">
+      <li class="error" v-for="error of errors">{{ error }}</li>
+    </ul>
+
     <button ref="submit-btn" type="submit">Submit</button>
+
   </form>
 </template>
 
@@ -165,7 +210,7 @@
   }
 
   .emoji-picker {
-    margin-top: 1em;
+    @apply mt-6;
   }
 
   .errors {
