@@ -74,7 +74,10 @@
 
   // Form
 
+  const inputName = ref('');
+
   const formRef = useTemplateRef('form');
+  const inputNameRef = useTemplateRef('input-name-ref');
   const inputIconRef = useTemplateRef('input-icon-ref');
   const submitBtnRef = useTemplateRef('submit-btn');
 
@@ -102,9 +105,19 @@
   <form ref="form" @submit.prevent="onSubmit">
 
     <fieldset>
+      <label for="name">Text</label>
+      <input ref="input-name-ref" id="name" name="name" type="text" required>
+    </fieldset>
+
+    <fieldset>
+      <label for="url">Link</label>
+      <input ref="input-url-ref" name="url" type="text" id="url" required>
+    </fieldset>
+
+    <fieldset>
       <label for="icon">Icon</label>
-      <input ref="input-icon-ref" id="icon" name="icon" type="text" :value="getEmoji" max="1">
-      <EmojiPicker native="true" @select="onSelectEmoji" />
+      <input ref="input-icon-ref" id="icon" name="icon" type="text" :value="getEmoji" max="1" required>
+      <EmojiPicker class="emoji-picker" native="true" @select="onSelectEmoji" />
     </fieldset>
 
     <button ref="submit-btn" type="submit">Submit</button>
@@ -149,6 +162,10 @@
 
   button[type='submit']:disabled {
     @apply bg-gray-300 cursor-not-allowed;
+  }
+
+  .emoji-picker {
+    margin-top: 1em;
   }
 
   .errors {
