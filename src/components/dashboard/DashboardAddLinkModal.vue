@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-  import { computed, inject } from 'vue';
+  import { inject, useTemplateRef } from 'vue';
   import { useSnackbar } from 'vue3-snackbar';
   import { getCurrentModal } from 'jenesius-vue-modal';
 
@@ -63,10 +63,21 @@
 
   }
 
+  // Form
+
+  const formRef = useTemplateRef('form');
+  const submitBtnRef = useTemplateRef('submit-btn');
+
+  const onSubmit = () => {
+    console.log('Submit');
+  }
+
 </script>
 
 <template>
-  Create Link
+  <form ref="form" @submit.prevent="onSubmit">
+    <button ref="submit-btn" type="submit"></button>
+  </form>
 </template>
 
 <style scoped>
