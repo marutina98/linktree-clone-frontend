@@ -29,9 +29,9 @@
 
 <template>
  
-  <template v-if="user">
-    
-    <div class="profile">
+  <div class="profile">
+
+    <template v-if="user">
       
       <div class="profile-info">
         <div class="profile-picture" :style="{ backgroundImage: `url(${user!.profile.picture})` }"></div>
@@ -69,18 +69,77 @@
         </div>
       </template>
 
-    </div>
+    </template>
 
-  </template>
+    <template v-else>
+      No User Found
+    </template>
 
-  <template v-else>
-    No User Found
-  </template>
+  </div>
 
 </template>
 
 <style scoped>
 
   @reference 'tailwindcss';
+
+  .profile {
+    @apply p-4 flex flex-col gap-4;
+  }
+
+  .profile-info {
+    @apply flex flex-col gap-2 items-center justify-center;
+  }
+
+  .profile-name {
+    @apply text-2xl;
+  }
+
+  .profile-biography {
+    @apply text-sm;
+  }
+
+  .profile-picture {
+    @apply border-8 border-white h-42 ring-2 ring-gray-100 rounded-full w-42;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .profile-link {
+    @apply flex p-2;
+  }
+
+  .profile-link-icon {
+    @apply max-w-5;
+  }
+
+  .profile-link-text {
+    @apply text-center;
+    width: calc(100% - (var(--spacing) * 5));
+  }
+
+  .profile-content {
+    @apply p-4 flex flex-col gap-4;
+  }
+
+  .profile-links {
+    @apply flex flex-col gap-2;
+  }
+
+  .profile-link:nth-child(odd) {
+    @apply  bg-amber-100;
+  }
+
+  .profile-link:nth-child(odd):hover {
+    @apply  bg-amber-200;
+  }
+
+  .profile-link:nth-child(even) {
+    @apply bg-lime-100;
+  }
+
+  .profile-link:nth-child(even):hover {
+    @apply  bg-lime-200;
+  }
 
 </style>

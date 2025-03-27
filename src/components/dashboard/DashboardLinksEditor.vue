@@ -256,7 +256,7 @@
 
               <span class="preview-link-icon">
                 <template v-if="link.icon.length > 0">
-                  {{ getIconChar(link.icon) }}
+                  {{ helperService.getIconChar(link.icon) }}
                 </template>
               </span>
               
