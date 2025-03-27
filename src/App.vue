@@ -15,8 +15,8 @@
 
   // Pages where Header and Footer are *not* visible
 
-  const hideHeader = ['/login', '/signup'];
-  const hideFooter = ['/login', '/signup'];
+  const hideHeader = ['/login', '/signup', '/not-found'];
+  const hideFooter = ['/login', '/signup', '/not-found'];
 
   const isHeaderHidden = computed(() => hideHeader.includes(route.path));
   const isFooterHidden = computed(() => hideFooter.includes(route.path));

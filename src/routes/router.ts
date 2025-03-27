@@ -6,13 +6,24 @@ import Signup from '@/components/signup/Signup.vue';
 import Dashboard from '@/components/dashboard/Dashboard.vue';
 import Profile from '@/components/profile/Profile.vue';
 
+import ErrorRedirect from '@/components/error/ErrorRedirect.vue';
+import ErrorNotFound from '@/components/error/ErrorNotFound.vue';
+
 import { isAuthenticatedGuard } from '@/guards/is-authenticated.guard.ts';
 import { isGuestGuard } from '@/guards/is-guest.guard.ts';
-import { useAuthenticationStore } from '@/stores/use-authentication-store.store.ts';
-
-import type { IAuthenticationStore } from '@/interfaces/authentication-store.interface.ts';
+import { useAuthenticationStore } from '@/stores/use-authentication-store.store.ts'
 
 const routes = [
+
+  {
+    path: '/:pathMatch(.*)*',
+    component: ErrorRedirect
+  },
+
+  {
+    path: '/not-found',
+    component: ErrorNotFound
+  },
 
   {
     path: '/',
