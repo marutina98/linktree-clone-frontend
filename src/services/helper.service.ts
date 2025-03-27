@@ -64,6 +64,10 @@ class HelperService {
 
   }
 
+  public getIconChar(icon: string) {
+    return String.fromCodePoint(parseInt(icon, 16));
+  }
+
 }
 
 export const helperService = new HelperService();

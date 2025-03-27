@@ -2,8 +2,10 @@
 
   import { computed, inject } from 'vue';
   import { useSnackbar } from 'vue3-snackbar';
-  import { apiService } from '@/services/api.service';
   import { openModal } from 'jenesius-vue-modal';
+
+  import { apiService } from '@/services/api.service';
+  import { helperService } from '@/services/helper.service';
 
   import { ChevronDownIcon, ChevronUpIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/outline';
 
@@ -41,10 +43,6 @@
   const snackbar = useSnackbar();
 
   // To move into helpers.service.ts
-
-  const getIconChar = (icon: string) => {
-    return String.fromCodePoint(parseInt(icon, 16));
-  }
 
   const getMaxOrder = (links: ILink[]) => {
     return Math.max(...links.map(link => link.order));
@@ -190,7 +188,7 @@
 
               <span class="editor-link-icon">
                 <template v-if="link.icon.length > 0">
-                  {{ getIconChar(link.icon) }}
+                  {{ helperService.getIconChar(link.icon) }}
                 </template>
               </span>
               
