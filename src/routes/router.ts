@@ -4,10 +4,12 @@ import Home from '@/components/home/Home.vue';
 import Login from '@/components/login/Login.vue';
 import Signup from '@/components/signup/Signup.vue';
 import Dashboard from '@/components/dashboard/Dashboard.vue';
+import Profile from '@/components/profile/Profile.vue';
 
 import { isAuthenticatedGuard } from '@/guards/is-authenticated.guard.ts';
 import { isGuestGuard } from '@/guards/is-guest.guard.ts';
 import { useAuthenticationStore } from '@/stores/use-authentication-store.store.ts';
+
 import type { IAuthenticationStore } from '@/interfaces/authentication-store.interface.ts';
 
 const routes = [
@@ -42,6 +44,11 @@ const routes = [
       const store = useAuthenticationStore();
       return isAuthenticatedGuard(store, to, from);
     }
+  },
+
+  {
+    path: '/profile/:id',
+    component: Profile,
   }
 
 ];

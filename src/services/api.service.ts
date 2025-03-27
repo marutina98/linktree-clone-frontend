@@ -49,6 +49,21 @@ class ApiService {
 
   }
 
+  // User
+
+  async getUser(id: string|number) {
+
+    const api = `${this.baseURL}users/${id}`;
+    const method = 'GET';
+
+    return await fetch(api, {
+      mode: 'cors',
+      method: method,
+      headers: this.getHeaders(method)
+    });
+
+  }
+
   // Profile
 
   async updateProfile(data: IProfileEditData) {
