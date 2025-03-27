@@ -7,19 +7,8 @@
 
   onBeforeMount(() => {
     router.push({
-      path: 'not-found'
+      path: '/not-found'
     });
   });
 
-</script>
-
-<template>
-  <div class="error">
-    <span>404</span>
-    <span>Page not found</span>
-    <RouterLink to="/">Go back Home</RouterLink>
-  </div>
-</template>
-
-<script scoped>
 </script>
