@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
   import { computed, onBeforeMount, ref, type Ref } from 'vue';
-  import { useRoute } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
 
   import { apiService } from '@/services/api.service';
   import { helperService } from '@/services/helper.service';
@@ -11,8 +11,10 @@
   const route = useRoute();
   const id = route.params.id as string;
 
-  const _user: Ref<IUser|null> = ref(null);
+  const _user: Ref<IUser> = ref({} as IUser);
   const user = computed(() => _user.value);
+
+  const router = useRouter();
 
   onBeforeMount(async () => {
     
@@ -21,6 +23,10 @@
     if (request.ok) {
       const response = await request.json();
       _user.value = response;
+    } else {
+      router.push({
+        path: '/not-found'
+      });
     }
 
   });

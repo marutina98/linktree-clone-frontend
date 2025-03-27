@@ -1,5 +1,6 @@
-import type { IEmoji } from '@/interfaces/emoji.interface.ts';
 import { isURL, isEmail, isLength, escape } from 'validator';
+
+import type { IEmoji } from '@/interfaces/emoji.interface.ts';
 
 class HelperService {
   
