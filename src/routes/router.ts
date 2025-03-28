@@ -1,4 +1,4 @@
-import { createWebHistory, createRouter, type RouteLocationNormalized } from 'vue-router';
+import { createWebHistory, createRouter, useRoute, type RouteLocationNormalized, type RouteLocationGeneric } from 'vue-router';
 
 import Home from '@/components/home/Home.vue';
 import Login from '@/components/login/Login.vue';
@@ -11,7 +11,11 @@ import ErrorNotFound from '@/components/error/ErrorNotFound.vue';
 
 import { isAuthenticatedGuard } from '@/guards/is-authenticated.guard.ts';
 import { isGuestGuard } from '@/guards/is-guest.guard.ts';
-import { useAuthenticationStore } from '@/stores/use-authentication-store.store.ts'
+import { useAuthenticationStore } from '@/stores/use-authentication-store.store.ts';
+
+import { apiService } from '@/services/api.service.ts';
+
+const route = useRoute();
 
 const routes = [
 
@@ -57,9 +61,18 @@ const routes = [
     }
   },
 
+  // Fetch User via Props
+
   {
     path: '/profile/:id',
     component: Profile,
+    props: {
+      getUser: async (route: RouteLocationGeneric) => {
+        const id = route.params.id as string;
+        const request = await apiService.getUser(id);
+        return request;
+      }
+    }
   }
 
 ];
