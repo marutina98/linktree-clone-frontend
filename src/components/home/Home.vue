@@ -1,10 +1,20 @@
 <script setup lang="ts"></script>
+
 <template>
-  <p>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-    Fugit officia accusantium nemo maiores aliquid aperiam quis,
-    odio quam doloribus architecto! Saepe quos cum eaque ipsa vel
-    similique, hic labore provident.
-  </p>
+  <div class="wrapper">
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      Nostrum repellat, est laborum hic accusantium blanditiis dolore cumque quia?
+      Quaerat exercitationem sapiente, labore nulla facilis facere porro?
+      Atque laudantium exercitationem repellendus!
+    </p>
+  </div>
 </template>
-<style scoped></style>
+
+<style scoped>
+  @reference 'tailwindcss';
+
+  .wrapper {
+    @apply p-2;
+  }
+</style>
