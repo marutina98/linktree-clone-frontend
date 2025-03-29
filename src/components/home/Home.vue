@@ -1,5 +1,6 @@
 <script setup lang="ts">
 
+  const githubURL = 'https://github.com/marutina98';
   const backendRepoURL = 'https://github.com/marutina98/linktree-clone-backend';
   const frontendRepoURL = 'https://github.com/marutina98/linktree-clone-frontend';
 
@@ -41,7 +42,7 @@
       
       <div class="common-content">
         <p>
-          This <strong>LinkTree</strong> clone was written as a learning project.
+          This <strong>LinkTree</strong> clone was written as a learning project by <a :href="githubURL">marutina98</a>.
         </p>
       </div>
 
@@ -90,7 +91,7 @@
   .backend,
   .frontend,
   .common {
-    @apply border-4 border-amber-100;
+    @apply border-4 border-amber-100 text-center;
   }
 
   .backend-content,
