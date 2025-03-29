@@ -35,6 +35,8 @@ export const useAuthenticationStore = defineStore('token', () => {
     user.value = _user;
   }
 
+  const getUser = () => user.value;
+
   return {
     user,
     isLogged,
@@ -44,6 +46,7 @@ export const useAuthenticationStore = defineStore('token', () => {
     deleteToken,
     checkIfAuthenticated,
     setUser,
+    getUser,
   }
 
 });

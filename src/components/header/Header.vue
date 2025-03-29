@@ -1,9 +1,11 @@
 <script setup lang="ts">
 
-  import type { IAuthenticationStore } from '@/interfaces/authentication-store.interface';
   import type { INavItem } from '@/interfaces/nav-item.interface';
-  import { inject, onBeforeMount, ref } from 'vue';
+  import { computed, inject, onBeforeMount } from 'vue';
+
+  import HeaderProfileButton from './HeaderProfileButton.vue';
   import HeaderLogoutButton from './HeaderLogoutButton.vue';
+  import { storeToRefs, type StoreGeneric } from 'pinia';
 
   // Nav
 
@@ -19,12 +21,15 @@
   // Check the status before mounting
   // component
 
-  const authenticationStore = inject('authentication') as IAuthenticationStore;
+  const authenticationStore = inject('authentication') as StoreGeneric;
+  const { user } = storeToRefs(authenticationStore);
   
-  onBeforeMount(() => {
+  const getUser = computed(() => user.value);
+
+  onBeforeMount(async () => {
     authenticationStore.checkIfAuthenticated();
   });
-  
+
 </script>
 
 <template>
@@ -46,6 +51,7 @@
         </template>
 
         <template v-else>
+          <HeaderProfileButton :user="getUser" />
           <RouterLink to="/dashboard">Dashboard</RouterLink>
           <HeaderLogoutButton />
         </template>

@@ -10,6 +10,7 @@ interface IAuthenticationStore {
   user: Ref<IUser|null>,
   $subscribe: Function,
   setUser: Function,
+  getUser: Function,
 }
 
 export type { IAuthenticationStore }

@@ -15,6 +15,7 @@
   const logout = () => {
     
     authenticationStore.deleteToken();
+    authenticationStore.setUser(null);
 
     router.push({
         path: '/'
