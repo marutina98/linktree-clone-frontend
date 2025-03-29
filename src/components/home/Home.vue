@@ -71,7 +71,7 @@
 
     </div>
 
-    <div class="bottom common">
+    <div class="footer common">
       
       <div class="common-content">
         <p>
@@ -101,11 +101,12 @@
   .wrapper {
     @apply gap-4 grid p-4;
     grid-template-areas: 'left right'
-                         'bottom bottom';
+                         'footer footer';
   }
 
-  .bottom {
-    grid-area: bottom;
+  .footer {
+    @apply text-center;
+    grid-area: footer;
   }
 
   .left {
