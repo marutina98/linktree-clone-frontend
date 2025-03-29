@@ -12,28 +12,61 @@
 
     <div class="left frontend">
 
-      <header class="frontend">
-        <h1>Frontend</h1>
+      <header>
+        <h2>Frontend</h2>
       </header>
 
       <div class="frontend-content">
+
         <p>
           You can find the repository for the frontend <a :href="frontendRepoURL">here</a>.
         </p>
+        
+        <div class="info">
+          <header>
+            <h3>Info</h3>
+          </header>
+
+          <div class="info-content">
+            <ul>
+              <li>Typescript</li>
+              <li>Vue</li>
+              <li>Vue Router</li>
+              <li>Pinia</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
     </div>
 
     <div class="right backend">
 
-      <header class="backend">
-        <h1>Backend</h1>
+      <header>
+        <h2>Backend</h2>
       </header>
 
       <div class="backend-content">
+
         <p>
           You can find the repository for the backend <a :href="backendRepoURL">here</a>.
         </p>
+
+        <div class="features">
+          <header>
+            <h3>Features</h3>
+          </header>
+
+          <div class="features-content">
+            <ul>
+              <li>Link Creation</li>
+              <li>Link Ordering</li>
+              <li>Emojis as Link Icons</li>
+              <li>Profile Creation</li>
+            </ul>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -83,21 +116,42 @@
     grid-area: right;
   }
 
-  header.backend,
-  header.frontend {
+  .backend header,
+  .frontend header {
     @apply bg-amber-100 text-5xl text-center p-2;
   }
 
   .backend,
   .frontend,
-  .common {
-    @apply border-4 border-amber-100 text-center;
+  .common,
+  .features,
+  .info {
+    @apply border-4 border-amber-100;
   }
 
   .backend-content,
   .frontend-content,
-  .common-content {
-    @apply p-2;
+  .common-content,
+  .features-content,
+  .info-content {
+    @apply flex flex-col gap-2 p-2;
+  }
+
+  /* Features and Info */
+
+  .features header,
+  .info header {
+    @apply text-2xl;
+  }
+
+  .features ul,
+  .info ul {
+    @apply list-disc list-inside;
+  }
+
+  .features li,
+  .info li {
+    @apply indent-2;
   }
 
 </style>
