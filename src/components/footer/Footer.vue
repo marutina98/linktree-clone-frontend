@@ -12,6 +12,7 @@
 
   footer {
     @apply bg-amber-100 text-amber-600 px-8 py-6 text-center;
+    height: 70px;
   }
 
 </style>

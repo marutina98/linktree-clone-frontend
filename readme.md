@@ -4,7 +4,7 @@
 
 ## Description
 
-A LinkTree frontend (and Frontend) clone project created as a learning project. It uses Vue, Vue Router, Prisma and Typescript.
+A LinkTree frontend (and Frontend) clone project created as a learning project. It uses Vue, Vue Router, Pinia, Tailwind and Typescript.
 
 ## Table of Contents
 

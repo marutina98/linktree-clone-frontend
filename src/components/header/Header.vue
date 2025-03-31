@@ -67,6 +67,10 @@
 
   @reference 'tailwindcss';
 
+  header {
+    height: 90px;
+  }
+
   nav {
     @apply bg-amber-100 flex gap-8 items-center text-amber-600 px-8 py-6;
   }
