@@ -18,8 +18,8 @@
     authenticationStore.setUser(null);
 
     router.push({
-        path: '/'
-      });
+      path: '/'
+    });
 
     snackbar.add({
       type: 'success',
