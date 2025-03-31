@@ -38,7 +38,7 @@
 
     <nav>
       <div class="nav-brand">
-        <h1>{{ brandName }}</h1>
+        <img class="nav-brand-icon" src="@/assets/honey-svgrepo-com.svg" alt="Honey SVGRepo Icon">
       </div>
 
       <div class="nav-items">
@@ -77,6 +77,10 @@
 
   .nav-brand {
     @apply flex font-extrabold grow shrink tracking-[.5em] uppercase;
+  }
+
+  .nav-brand-icon {
+    @apply w-12 h-auto;
   }
 
   .nav-items {
