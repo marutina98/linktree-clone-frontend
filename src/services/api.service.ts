@@ -6,7 +6,7 @@ import { useAuthenticationStore } from '@/stores/use-authentication-store.store.
 
 class ApiService {
 
-  private baseURL: string = 'http://localhost:8000/api/';
+  private baseURL: string = 'https://linktree-clone-backend.vercel.app/api/';
 
   async login(data: IAuthenticationLoginData) {
 
