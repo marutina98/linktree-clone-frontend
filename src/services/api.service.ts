@@ -35,7 +35,7 @@ class ApiService {
     });
 
   }
-
+  
   async getAuthenticatedUser() {
 
     const api = this.baseURL + 'users/authenticated';
