@@ -1,0 +1,11 @@
+@import 'tailwindcss';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+#app {
+  @apply flex flex-col min-h-screen;
+}
